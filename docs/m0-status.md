@@ -2,6 +2,8 @@
 
 **M0: PARTIAL. M1–M3: NOT RUN. G-P/G-I/G-F/G-M: NOT RUN.**
 
+Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 40 Python tests pass. Instruments presentation trace remains blocked even over USB. Licensed cat/dog assets remain absent and spending explicitly unapproved. See the final continuation below; earlier sections retain historical results.
+
 ## Delivered
 - Initialized a local Git repository on `main`; no remote or public publication.
 - Added dependency-free Python capture inspection, CSV/manifest contracts and a Unity diagnostic recorder package.
@@ -19,10 +21,10 @@ Unity compilation, editor tests, iOS build/install, asset rendering, actual FPS/
 | Blocker | Evidence so far | Next action / responsible role |
 |---|---|---|
 | Baseline iPhone and test environment | iPhone 14 Pro; iOS 26.6.2 explicitly reconfirmed by user; baseline candidate | Verify installed OS/build and freeze device/room/lighting matrix |
-| Mac/Xcode build host | Apple silicon Mac, macOS 26.6.2, Xcode 27.0, Unity 6000.6.6f1 with iOS Build Support and developer account confirmed | Compile with confirmed editor and verify iPhone deployment/signing |
+| Mac/Xcode build host | Diagnostic Unity export, signed Xcode build and iPhone deployment verified; details below | Revalidate when animal/AR dependencies are introduced |
 | Named owners | Serhan Sari confirmed engineering, art/licensing and testing ownership during live Mac execution | Owner coordinates procurement and protocol freeze |
-| Licensed cat/dog assets | No assets in repository; rights unknown | Art owner selects assets with rig/motion/fur coverage and redistribution terms within approved procurement limit |
-| Timing/thermal validation | Update proxy only; thermal unknown | Engineering validates device presentation/input method and native thermal telemetry |
+| Licensed cat/dog assets | No licensed packages present; shortlist documented; owner keeps spending unapproved | Owner supplies suitable already-licensed assets or later approves procurement; no spending now |
+| Timing/thermal validation | Update proxy only; native nominal thermals verified through full run; Instruments trace blocked over USB | Resolve Instruments visibility and calibrate presentation/input timing; transitions/overhead untested |
 | Protocol freeze | Thresholds documented; warm-up, rooms and battery context not frozen | Test owner records conditions and protocol revision before scoring |
 | Research funding | Numerical caps/funding/vendors/cohort remain unset | Product/finance/research owners complete R0; no billable research starts |
 
@@ -216,6 +218,30 @@ Verification: **40 Python tests PASS** in `artifacts/python-tests-series-final.l
 
 ### Current phone test and blockers
 
-Owner started one full-duration diagnostic on the current native-thermal/screenshot build and agreed to keep it foregrounded. Result is pending; do not infer automatic completion or sustained native-thermal behavior from the earlier pre-thermal run. No app rebuild or reinstall was performed during this capture.
+Owner started one full-duration diagnostic on the current native-thermal/screenshot build and agreed to keep it foregrounded. It subsequently completed and was exported; actual results are recorded below. No app rebuild or reinstall was performed during this capture.
 
 Remaining independent evidence requires owner/hardware/art actions: legitimate cat/dog packages and procurement/rights resolution; actual marked room layouts and ambient/battery-health context; calibrated presentation/input timing with an independent reference; motion reviewers and blinded evaluators at M3. Additional flagship hardware remains untested. **M0 PARTIAL; M1–M3 and all product gates NOT RUN.** No M4–M14 implementation, paid research, reconstruction job or cloud provisioning is performed.
+
+
+## Full native-thermal capture 007 and USB trace blocker
+
+Source on the phone: screenshot/native-thermal build 006 from `3c03af8`, build GUID `252cc88c97e84661be47da3e43e453b8`. Analysis tools source: `f359ab7`. The owner kept the app foregrounded for the complete run. Capture was finished and safely copied before profiling attempts; no trace ran concurrently with this capture.
+
+| Check | Actual result | Private local evidence |
+|---|---|---|
+| Full capture → save → device copy → analysis | PASS for diagnostic pipeline; automatic `duration_reached`, `completed=true`, zero recorded interruptions | `artifacts/device-captures-007/20261016T005107-fcc5d76491a54819857913ef4e059539/`, `device-capture-copy-007.json` / `.log` |
+| Duration and native thermals | 600.008373 seconds, 35,973 rows; every thermal sample nominal, zero unknown | Raw manifest / `frames.csv` |
+| Update cadence | p95 16.945958 ms; worst 23.362667 ms; ten complete minute windows 59.95–59.966667 Update FPS | `artifacts/diagnostic-analysis-007.json` |
+| Memory / battery | Peak Unity allocated memory 70.230794 MiB; reported battery 0.95 → 0.95 | Same raw/report files; not resident-memory or battery-drain proof |
+| Single-run and series inspectors | Correctly **PARTIAL / G-P NOT RUN**, with no measured numerical failures; missing animal, validated timing/touches and protocol evidence retained | `artifacts/diagnostic-analysis-007.json`, `diagnostic-series-007.json` |
+| Prior raw evidence preservation | All eight files from four earlier runs byte-identical to capture export 004 | `artifacts/capture-preservation-007.json` |
+| Instruments over local network | Attach by app name failed (exit 19); confirmed PID attach failed (exit 21) | `artifacts/metal-trace-007.log` / `.json`, `metal-trace-007-pid.log` / `.json` |
+| Instruments retry after owner connected USB and unlocked phone | CoreDevice reports wired/paired/connected, `xcdevice` reports available over USB, current app PID confirmed; Instruments still lists phone offline and times out waiting for boot (exit 13, 30.83 seconds). **No usable trace** | `artifacts/device-inventory-usb-trace.json`, `xcdevice-usb-007.json`, `xctrace-devices-usb.log`, `metal-trace-007-usb.log` / `.json` |
+
+Raw manifest SHA-256 `3dd247919cee4d69d72838dddca8cf26e2de4adfed7f4ac7145194a06af5e7f2`; raw frame CSV SHA-256 `1a1398af9f7bce357006da40155f58736bac2f7d5b716f0a334ea457833142d4`. Original provenance remains `instrumentation_only`, `unverified_player`, `unity_update_proxy`; no raw declarations were rewritten to claim acceptance. External CoreDevice inventory establishes the physical phone used, but does not validate the recorder's timing method. Partial trailing window is excluded from full-minute cadence scoring.
+
+Private archive `artifacts/m0-native-full-capture-007.zip`, SHA-256 `01a5eb4b938c1f1037768979669e396482f027ba7797c4fcfd7d739d2b9f1a2a`; 42 files, ZIP integrity verified. Includes five raw captures, analyses, preservation hashes, trace failures/device inventories, asset research and test log. Per-file hashes are in `artifacts/evidence-index-007.json`. Evidence remains ignored/local; credentials and signed application binaries are not added to Git.
+
+The full-duration native nominal-thermal path is now verified, superseding earlier pending full-run notes. Thermal transitions, instrumentation overhead, independent on-glass presentation, touch-to-visible latency, offline/network behavior, animal realism/motion/AR and owner-identity acceptance remain untested. Connection inventory during capture used local-network transport, so unchanged battery readings do not establish charge state or power efficiency. App-rendered screenshot export works; video recording remains unimplemented.
+
+**Next blockers:** suitable licensed cat/dog packages with the required motion/rights evidence (owner explicitly leaves spending unapproved), and Instruments device visibility/calibrated timing. Resolving timing may require an interactive Instruments/Xcode device-support investigation; USB alone did not resolve it. No unpairing, security reset or speculative toolchain downgrade was performed. Marked living-room layouts, ambient/battery-health context, protocol freeze, reviewers and blinded evaluation remain outstanding. **M0 PARTIAL; M1–M3 and all product gates NOT RUN.** No further animal/AR implementation can proceed under the asset prerequisite. No paid services, purchases, reconstruction jobs or M4–M14 implementation performed.
