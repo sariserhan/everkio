@@ -81,3 +81,17 @@ An instrumentation capture **must remain PARTIAL or FAIL**, never an animal-pres
 
 ## Implementation references
 The runner uses Unity's [command-line execution](https://docs.unity.com/en-us/engine/6000.3/manual/unity-editor/command-line-arguments/run-unity) and [editor argument contract](https://docs.unity.com/en-us/engine/6000.3/manual/unity-editor/command-line-arguments/editor). No shell interpolation, cloud build service or network inference is used by the runner. Unity may contact its licensing/package services when launched.
+
+
+## Save a visual diagnostic screenshot
+
+When no data run is active, tap **Save diagnostic screenshot**. The app waits for the rendered frame, encodes a PNG and reports the saved filename or failure. Screenshot work is disabled during timing collection to keep its readback/encoding work out of those samples. Screenshots show the current diagnostic app view; they contain no animal/AR content and do not measure physical display timing.
+
+Images are saved privately under `Documents/EverkioDiagnostics/Screenshots`, separately from the benchmark CSV bundles. This does not write to Photos, record video or upload anything. Copy the images to a fresh local directory:
+
+```sh
+mkdir artifacts/device-screenshots-001
+xcrun devicectl device copy from --device YOUR_DEVICE_UDID   --domain-type appDataContainer   --domain-identifier com.yourcompany.everkio.diagnostics   --source Documents/EverkioDiagnostics/Screenshots   --destination artifacts/device-screenshots-001
+```
+
+Preserve PNG hashes and source/build/device provenance with the M0 evidence. These diagnostic images do not qualify as animal-presence clips or implement the deferred product media-sharing/recording flow.

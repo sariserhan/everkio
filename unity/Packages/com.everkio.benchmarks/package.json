@@ -3,5 +3,9 @@
   "version": "0.1.0",
   "displayName": "Everkio Benchmark Capture",
   "description": "Local M0 diagnostic capture; not a validated presentation or touch latency instrument.",
-  "unity": "6000.0"
+  "unity": "6000.0",
+  "dependencies": {
+    "com.unity.modules.imageconversion": "1.0.0",
+    "com.unity.modules.screencapture": "1.0.0"
+  }
 }

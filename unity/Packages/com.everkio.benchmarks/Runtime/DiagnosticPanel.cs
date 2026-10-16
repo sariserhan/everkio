@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using System.IO;
 using UnityEngine;
 
 namespace Everkio.Benchmarks
@@ -10,6 +13,8 @@ namespace Everkio.Benchmarks
         private GUIStyle button;
         private Vector2 scroll;
         private int previousFrameRate;
+        private bool savingScreenshot;
+        private string screenshotStatus = "Screenshots save to private app files, not Photos. Video recording is not included.";
         private void Awake()
         {
             previousFrameRate = Application.targetFrameRate;
@@ -50,13 +55,19 @@ namespace Everkio.Benchmarks
             }
             GUILayout.Label("Frames: " + recorder.SampleCount, label);
             GUILayout.Label("Device thermal state: " + recorder.ThermalState, label);
-            GUI.enabled = !recorder.IsRunning;
+            GUI.enabled = !recorder.IsRunning && !savingScreenshot;
             if (GUILayout.Button("Start cat-labelled diagnostic", button, GUILayout.Height(70))) StartCapture("cat");
             if (GUILayout.Button("Start dog-labelled diagnostic", button, GUILayout.Height(70))) StartCapture("dog");
             GUI.enabled = recorder.IsRunning;
             if (GUILayout.Button("Stop and save incomplete capture", button, GUILayout.Height(70))) recorder.StopCapture();
             GUI.enabled = true;
             GUILayout.Space(20);
+            GUI.enabled = !recorder.IsRunning && !savingScreenshot;
+            if (GUILayout.Button("Save diagnostic screenshot", button, GUILayout.Height(70)))
+                StartCoroutine(SaveDiagnosticScreenshot());
+            GUI.enabled = true;
+            GUILayout.Label(screenshotStatus, label);
+            if (recorder.IsRunning) GUILayout.Label("Screenshots are available after the data capture stops, to avoid disturbing timing samples.", label);
             GUILayout.Label("30-second draft warm-up; 10-minute capture. Keep this app foregrounded. Update cadence is not display or touch latency.", label);
             if (!string.IsNullOrEmpty(recorder.LastExportPath)) GUILayout.Label("Saved: " + recorder.LastExportPath, label);
             GUILayout.EndScrollView();
@@ -68,6 +79,46 @@ namespace Everkio.Benchmarks
         {
             recorder.species = species;
             recorder.BeginCapture();
+        }
+
+        private IEnumerator SaveDiagnosticScreenshot()
+        {
+            savingScreenshot = true;
+            screenshotStatus = "Saving diagnostic screenshot...";
+            yield return new WaitForEndOfFrame();
+            Texture2D screenshot = null;
+            try
+            {
+                if (!Application.isFocused || recorder.IsRunning)
+                    throw new InvalidOperationException("Keep the app foregrounded and stop data capture before saving a screenshot.");
+                screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+                if (screenshot == null) throw new IOException("Screen capture returned no image.");
+                byte[] png = screenshot.EncodeToPNG();
+                if (png == null || png.Length == 0) throw new IOException("Screenshot encoding returned no PNG.");
+                string folder = Path.Combine(Application.persistentDataPath, "EverkioDiagnostics", "Screenshots");
+                Directory.CreateDirectory(folder);
+                string path = Path.Combine(folder, DateTime.UtcNow.ToString("yyyyMMddTHHmmss") + "-" + Guid.NewGuid().ToString("N") + ".png");
+                using (var file = new FileStream(path, FileMode.CreateNew, FileAccess.Write)) file.Write(png, 0, png.Length);
+                screenshotStatus = "Screenshot saved: " + Path.GetFileName(path);
+                Debug.Log("Everkio diagnostic screenshot saved: " + path);
+            }
+            catch (Exception error)
+            {
+                screenshotStatus = "Screenshot failed: " + error.Message;
+                Debug.LogError("Everkio diagnostic screenshot failed: " + error);
+            }
+            finally
+            {
+                if (screenshot != null) Destroy(screenshot);
+                savingScreenshot = false;
+            }
+        }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
+            if (savingScreenshot) screenshotStatus = "Screenshot canceled before export completed.";
+            savingScreenshot = false;
         }
     }
 }

@@ -166,3 +166,32 @@ Previous raw captures/reports/archives remain unchanged and private. This update
 - First launch failed with locked-device denial; retry after unlock succeeded. Direct `idevicescreenshot` could not find the paired device through its transport, so no phone screenshot was obtained. Operator confirmed “countdown is working” but reported missing “display or capture”; clarification is pending on whether that means camera/animal view, media capture or locating diagnostic data. Do not mark this UI report resolved from a valid CSV alone.
 
 Private native-thermal smoke evidence archive: `artifacts/m0-native-thermal-smoke-004.zip`; SHA-256 `3007ab50faec7d37a713af559a56319a62430562d8852bcfe6488a0abac11f04`. Integrity checked. Source/signed binary hashes are in `artifacts/build-evidence-004.json`. No new-build full-duration, thermal-transition, overhead or visual screenshot proof is claimed.
+
+
+## M0 visual diagnostic screenshot continuation
+
+Baseline source `540b19e`. Owner clarified that the missing output meant an expected screenshot/video, rather than a broken countdown. The previous diagnostic only wrote CSV/manifest data. This continuation adds an explicit **Save diagnostic screenshot** button for private M0 evidence. It does not implement M7 product media sharing/recording or animal/AR content; video remains unimplemented.
+
+Implementation: wait until end-of-frame, capture the Unity-rendered app view, encode PNG, and write a UTC/UUID filename with `FileMode.CreateNew` under `Documents/EverkioDiagnostics/Screenshots`. Report success only after write completion; errors remain visible/logged. Destroy the temporary texture after export and cancel pending work when the panel is disabled. Disable screenshot export while a timing run is active and disable starting a run while saving. No Photos/camera permission, upload or cloud service is involved.
+
+Built-in ScreenCapture and ImageConversion modules are pinned at `1.0.0` in the app/package manifests and lockfile. Editor validation checks PNG encoding/signature. The screenshot is a rendered app image, not independent display-presentation or touch-latency evidence.
+
+| Check | Actual result | Private local evidence |
+|---|---|---|
+| Unity iOS export/PNG self-check | PASS; initial export 005 superseded by 006 including coroutine cancellation guard | `artifacts/export-ios-20261016T004128Z-50645132.log` / `.json`; final `artifacts/export-ios-20261016T004146Z-cae73349.log` / `.json` |
+| Xcode Debug/signing | PASS | `artifacts/xcode-build-006.log`; export `artifacts/ios-diagnostics-006/` |
+| Python tooling | PASS — 29 tests | `artifacts/python-tests-screenshot-006.log` |
+| iPhone installation | PASS | `artifacts/device-install-006.json` / `.log` |
+| First launch | Blocked by locked phone; operator asked to unlock/open | `artifacts/device-console-006.log` |
+| Physical PNG save/copy/visual inspection | PASS — operator saved image; retry copied valid 1179 × 2556 PNG; visually inspected | `artifacts/device-screenshots-006-retry/20261016T004309-1a11f45c683743e4a5937d72dff85979.png`, `artifacts/device-screenshot-copy-006-retry.json` |
+
+**M0 remains PARTIAL; M1–M3 and all product gates NOT RUN.** No asset purchase, paid service, reconstruction job, animal/AR work or other future milestone implementation performed. New-build full-duration/native thermal transitions/overhead remain untested. Procurement and calibrated measurement/protocol evidence remain open.
+
+
+### Screenshot 006 — actual visual result
+
+Owner confirmed **Screenshot saved** on the updated phone app. Copy attempt 1 failed with CoreDevice connection reset (`device-screenshot-copy-006.log`); retry succeeded without changing the image. PNG `20261016T004309-1a11f45c683743e4a5937d72dff85979.png` copied to `artifacts/device-screenshots-006-retry/`. Decoder inspection reported **1179 × 2556** pixels. Visual inspection shows the M0 panel, instrumentation-only disclosure, nominal thermal state, controls and readable text without blank/clipped content. Buttons are disabled and the status says Saving in the image because the screenshot captures the frame before encoding/writing completes; the owner separately confirmed the later success message. No camera or animal is rendered.
+
+PNG SHA-256: `45afe349f61e672e7afd925e98ea7f38071d3d86fef8c6116820ceb5191bb73a`. Source/signed executable and framework hashes are in `artifacts/build-evidence-006.json`. Phone update preserved previous raw data. The missing visual-output report is resolved for a diagnostic screenshot; video recording remains unimplemented. This demonstrates a Unity-rendered app screenshot/export path only, with no independent physical-presentation timing evidence or animal-presence acceptance.
+
+Private evidence archive `artifacts/m0-diagnostic-screenshot-006.zip`; SHA-256 `d5dfc67c99ea334778d8e648814c9af2f77b69be5f1475fcf004c27951c7ef0d`; ZIP integrity verified. Includes PNG, provenance, final export/build/test logs and failed/successful copy logs. Evidence stays local/ignored; no publication or external upload.

@@ -47,3 +47,10 @@ Serhan Sari confirmed the living room for the proposed open-floor/furnished conf
 | L2 | Artificial evening light | Lights used and positions, ambient conditions and starting device thermal state |
 
 Room/lighting identifiers must accompany actual animal runs after the layouts are documented. Warm-up remains the existing 30-second draft pending animal load/measurement calibration and protocol freeze. Battery health/start charge, ambient context, presentation/touch validation method and continuous native thermal validation still need recording before scored runs. Wired diagnostic battery increases do not qualify as battery-drain measurements. These conditions do not remove the licensed-asset or procurement blockers.
+
+
+## Diagnostic visual evidence
+
+The screenshot button exports the current Unity-rendered diagnostic app view to an immutable UUID-named PNG after end-of-frame rendering. It is available only outside active benchmark runs. The two added dependencies are built-in Unity ScreenCapture and ImageConversion modules, pinned to `1.0.0`; there is no external capture service or Photos permission. Editor validation checks that PNG encoding produces the expected signature, while physical screenshot/export/visual verification is recorded separately in [M0 status](m0-status.md).
+
+[Unity's screenshot API](https://docs.unity3d.com/6000.6/Documentation/ScriptReference/ScreenCapture.CaptureScreenshotAsTexture.html) requires capture after rendering; an end-of-frame coroutine supplies that point. This is a rendered app image, not independent physical-presentation or touch-latency proof. An empty diagnostic screenshot cannot meet animal/AR motion or realism requirements. Video recording and future product capture/sharing remain unimplemented.

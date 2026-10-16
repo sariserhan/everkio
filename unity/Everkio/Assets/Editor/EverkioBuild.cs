@@ -61,6 +61,16 @@ namespace Everkio.Editor
             if (ThermalTelemetry.Name((ThermalTelemetry.State)999) != "unknown" ||
                 ThermalTelemetry.Read() != ThermalTelemetry.State.Unknown)
                 throw new InvalidOperationException("Unavailable/editor thermal state must remain unknown.");
+            var pngProbe = new Texture2D(1, 1, TextureFormat.RGB24, false);
+            try
+            {
+                byte[] png = pngProbe.EncodeToPNG();
+                byte[] signature = { 137, 80, 78, 71, 13, 10, 26, 10 };
+                if (png == null || png.Length <= signature.Length) throw new IOException("PNG encoding failed.");
+                for (int i = 0; i < signature.Length; i++)
+                    if (png[i] != signature[i]) throw new IOException("PNG signature is invalid.");
+            }
+            finally { UnityEngine.Object.DestroyImmediate(pngProbe); }
             // Reaching this method establishes that editor scripts compiled.
             Debug.Log("EVERKIO_EDITOR_VALIDATION_OK " + Application.unityVersion);
         }
