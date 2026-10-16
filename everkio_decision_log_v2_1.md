@@ -41,3 +41,8 @@ Still open: named owners, hardware and assets, vendors and methods, research cur
 
 ## Future change entry template
 Record ID/date, proposer and approving product owner, affected requirement/gate, previous/new wording, reason, evidence, budget/scope effect, approval status and effective revision. Preserve historical failures. No threshold relaxation, new spending authority, additional implementation scope or public launch is implicit in a document edit or a passing test.
+
+
+## D13 — AI-generated generic animals, owner clarification October 15, 2026
+
+The owner clarified: “we supposed to generate animal with AI.” AI generation is the selected cat/dog asset direction for the generic presence work; a stock animal-pack purchase is not mandatory. Earlier procurement research remains historical fallback evidence. Record generation-model/output terms and source-media rights, then verify actual reusable 3D mesh/rig/motion/mobile quality. This does not relax realism, movement, device or acceptance gates, approve spending, authorize pet-identity reconstruction execution, or extend M0–M3 scope. No generator selected or generation job executed by this decision.

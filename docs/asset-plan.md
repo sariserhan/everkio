@@ -1,6 +1,13 @@
 # M0 cat/dog asset plan — 2026-10-15
 
-Status: **PARTIAL; procurement blocked pending selection, rights verification and approved budget.** No assets imported, purchased or approved. Product owner requested a shortlist only; no spending approved. M1/M2 remain NOT RUN. Engineering work is limited to diagnostic build/capture while this prerequisite is open.
+Status: **PARTIAL; AI-generated animals are the owner-selected direction.** The owner clarified that Everkio should generate its animals with AI. Buying a third-party animal pack is not a prerequisite. The store shortlist below is historical fallback research, not the selected implementation path. No spending is approved; no generation job has run and M1/M2 remain NOT RUN.
+
+## AI asset direction — owner clarification
+
+Select a generator/model and record its output-use terms, model/code terms where relevant, and rights to any supplied reference media. The intended result is a reusable adult cat and dog 3D asset suitable for Unity, with editable mesh/textures, rig, required motion coverage and mobile LODs. Generated output still needs actual realism, deformation, contact and iPhone evaluation; generation alone passes no gate. A stock-asset purchase license is required only if third-party stock content is actually used.
+
+Generic AI asset creation for M0–M3 is distinct from reconstructing a particular owner's pet under the R-track. The latter retains its funding/consent prerequisites. No paid generator, metered job, new service or reconstruction experiment is authorized by this clarification. The next task is to establish a suitable generation workflow and its bounded resource requirements, not to demand an asset-store purchase.
+
 
 ## Candidate review
 

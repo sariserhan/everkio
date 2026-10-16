@@ -2,7 +2,7 @@
 
 **M0: PARTIAL. M1–M3: NOT RUN. G-P/G-I/G-F/G-M: NOT RUN.**
 
-Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 48 Python tests pass. A short Instruments Metal trace/export/inspection now works after unlock/relaunch, while timing calibration remains incomplete. Licensed cat/dog assets remain absent and spending explicitly unapproved. See the final continuation below; earlier sections retain historical results.
+Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 48 Python tests pass. A short Instruments Metal trace/export/inspection now works after unlock/relaunch, while timing calibration remains incomplete. Usable cat/dog assets remain absent and spending explicitly unapproved. The owner subsequently clarified AI generation as the selected asset direction; a stock-pack purchase is not required. See the final continuation below; earlier sections retain historical results.
 
 ## Delivered
 - Initialized a local Git repository on `main`; no remote or public publication.
@@ -270,3 +270,8 @@ This is a short idle diagnostic trace, with no simultaneous recorder capture, fr
 XML export SHA-256 `4ea858cda57832b1f3f497f7e3c2f31d4e5fefd47db41d2206b08c3f64041859`. Private evidence archive `artifacts/m0-presentation-setup-008.zip`, SHA-256 `5660be17a2b60265a0ed6c1ffe85db26081641609cbd919b4936054e147b8d1f`; 626 files including the trace package, exports, analysis, device/launch logs, tests and inspector source; ZIP integrity verified. Per-file hashes: `artifacts/evidence-index-008.json`. The system trace contains device/other-process metadata and remains local/ignored. No credentials are committed.
 
 **Next blocker remains licensed cat/dog assets and rights/motion coverage.** Spending remains explicitly unapproved; the existing shortlist does not grant procurement or redistribution rights. Owner-supplied suitable already-licensed assets or a later approved procurement decision is needed before animal/AR implementation. Room layouts, ambient/battery-health context, calibrated protocol, independent reviews and cohort evidence remain missing. **M0 PARTIAL; M1–M3 and G-P/G-I/G-F/G-M NOT RUN.** No paid services, research/reconstruction jobs or M4–M14 implementation performed.
+
+
+## Asset-direction correction — AI generation
+
+Owner clarified that the animals should be AI-generated. The prior continuation treated a stock-pack license as the practical next dependency; that was too narrow. Updated the asset plan and decision D13: select a suitable AI-to-3D workflow, establish output/model/source rights and resource requirements, then evaluate the generated mesh/rig/motion on the actual phone. No stock purchase is mandatory. No generator is selected, no generation job has run, and spending remains unapproved. Personalized reconstruction research retains its separate funding/consent controls. M0 remains PARTIAL; M1–M3 and all product gates remain NOT RUN.
