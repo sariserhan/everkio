@@ -3,7 +3,7 @@ import math
 from pathlib import Path
 import tempfile
 import unittest
-from tools.author_animal_motion import author, trajectory, idle_profile, CONTROLS
+from tools.author_animal_motion import author, trajectory, idle_profile, turn_angle, CONTROLS
 
 
 class MotionTrajectoryTests(unittest.TestCase):
@@ -71,6 +71,21 @@ class MotionTrajectoryTests(unittest.TestCase):
             self.assertAlmostEqual(yaw, 0)
             before, after = idle_profile(seconds - 1e-5), idle_profile(seconds + 1e-5)
             self.assertLess(max(abs(a - b) / 2e-5 for a, b in zip(before, after)), 1e-6)
+
+    def test_turn_progression_keeps_stances_fixed_and_finishes_at_90_degrees(self):
+        for phase, _ in CONTROLS.values():
+            angles = {}
+            previous = 0
+            for i in range(6001):
+                travel, _, planted, stance = trajectory(i / 1000, phase)
+                angle = turn_angle(travel)
+                self.assertTrue(math.isfinite(angle))
+                self.assertLessEqual(angle, previous + 1e-12)
+                if planted:
+                    self.assertEqual(angles.setdefault(stance, angle), angle)
+                previous = angle
+            self.assertAlmostEqual(previous, -math.pi / 2)
+            self.assertEqual(angles[0], 0)
 
     def test_invalid_clip_fails_before_reading_source(self):
         with self.assertRaisesRegex(ValueError, 'Unsupported draft clip'):

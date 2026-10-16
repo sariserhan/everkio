@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Author bounded idle and start/walk/stop drafts on the reviewed quadruped rigs."""
+"""Author bounded idle, turn and start/walk/stop drafts on the reviewed quadruped rigs."""
 import argparse
 import csv
 import json
@@ -37,6 +37,11 @@ def trajectory(seconds, offset):
     return travel, lift, planted, stance
 
 
+def turn_angle(travel):
+    """Map the existing three-step progression to a 90-degree planted turn."""
+    return -math.pi * travel / (2 * 1.05)
+
+
 def idle_profile(seconds):
     """Six-second chest-lift/head-look loop; not validated anatomical breathing."""
     breath = .5 - .5 * math.cos(2 * math.pi * seconds / 3)
@@ -46,7 +51,7 @@ def idle_profile(seconds):
 
 def author(source, source_sha256, species, output, clip='walk'):
     source, output = Path(source).resolve(), Path(output).absolute()
-    if clip not in ('walk', 'idle'):
+    if clip not in ('walk', 'idle', 'turn'):
         raise ValueError('Unsupported draft clip')
     if species not in ('cat', 'dog') or digest(source) != source_sha256:
         raise ValueError('Species or source hash does not match the reviewed draft')
@@ -99,16 +104,26 @@ def author(source, source_sha256, species, output, clip='walk'):
             for frame in range(1, LAST_FRAME + 1):
                 seconds = (frame - 1) / FPS
                 scene.frame_set(frame)
-                paths = {name: trajectory(seconds, phase) if clip == 'walk' else (0, 0, True, 0)
+                paths = {name: trajectory(seconds, phase) if clip in ('walk', 'turn') else (0, 0, True, 0)
                          for name, (phase, _) in CONTROLS.items()}
                 distance = sum(p[0] for p in paths.values()) / len(paths)
                 matrix = rest['root'].copy()
-                matrix.translation += Vector((0, -distance, 0))
+                if clip == 'turn':
+                    matrix = Matrix.Rotation(turn_angle(distance), 4, 'Z') @ matrix
+                else:
+                    matrix.translation += Vector((0, -distance, 0))
                 rig.pose.bones['root'].matrix = matrix
                 rig.pose.bones['root'].keyframe_insert('location', frame=frame)
+                if clip == 'turn':
+                    rig.pose.bones['root'].keyframe_insert('rotation_quaternion', frame=frame)
                 root_positions.append(tuple(matrix.translation))
                 rig.update_tag(refresh={'OBJECT'})
                 bpy.context.view_layer.update()
+                if clip == 'turn':
+                    actual = rig.pose.bones['root'].matrix @ rest['root'].inverted()
+                    measured_turn = math.atan2(actual[1][0], actual[0][0])
+                    if abs(measured_turn - turn_angle(distance)) > 1e-5:
+                        raise ValueError('Evaluated root did not follow the turn target')
                 if clip == 'idle':
                     breath, yaw = idle_profile(seconds)
                     for name in ('chest', 'neck', 'head'):
@@ -124,7 +139,11 @@ def author(source, source_sha256, species, output, clip='walk'):
                         bpy.context.view_layer.update()
                 for name, (travel, height, planted, stance) in paths.items():
                     matrix = rest[name].copy()
-                    matrix.translation += Vector((0, -travel, height + correction[name]))
+                    if clip == 'turn':
+                        matrix = Matrix.Rotation(turn_angle(travel), 4, 'Z') @ matrix
+                        matrix.translation.z += height + correction[name]
+                    else:
+                        matrix.translation += Vector((0, -travel, height + correction[name]))
                     bone = rig.pose.bones[name]
                     bone.matrix = matrix
                     for key in ('location', 'rotation_quaternion'):
@@ -137,7 +156,7 @@ def author(source, source_sha256, species, output, clip='walk'):
                 bpy.context.view_layer.update()
                 evaluated = mesh.evaluated_get(bpy.context.evaluated_depsgraph_get())
                 positions = [evaluated.matrix_world @ v.co for v in evaluated.data.vertices]
-                if clip == 'walk' and (frame <= FPS or frame > LAST_FRAME - FPS):
+                if clip in ('walk', 'turn') and (frame <= FPS or frame > LAST_FRAME - FPS):
                     hold = 'start' if frame <= FPS else 'end'
                     reference = hold_positions.setdefault(hold, [v.copy() for v in positions])
                     hold_errors.append(max((v - initial).length for v, initial in zip(positions, reference)))
@@ -180,9 +199,10 @@ def author(source, source_sha256, species, output, clip='walk'):
             writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
             writer.writeheader()
             writer.writerows(rows)
-        report.update(status='PARTIAL', controller_stance_check='PASS', stationary_holds_check='PASS' if clip == 'walk' else 'NOT APPLICABLE',
+        report.update(status='PARTIAL', controller_stance_check='PASS', stationary_holds_check='PASS' if clip in ('walk', 'turn') else 'NOT APPLICABLE',
                       motion_sha256=digest(output / 'motion-candidate.blend'),
                       body_travel_normalized=root_positions[0][1] - root_positions[-1][1],
+                      turn_degrees=math.degrees(measured_turn) if clip == 'turn' else 0,
                       constant_floor_corrections=correction, contact_passes=contact_passes,
                       worst_stance_xy_drift=drift,
                       stationary_surface_max_error=max(hold_errors) if hold_errors else None,
@@ -206,7 +226,7 @@ def main():
     parser.add_argument('--source-sha256', required=True)
     parser.add_argument('--species', choices=('cat', 'dog'), required=True)
     parser.add_argument('--output', type=Path, required=True)
-    parser.add_argument('--clip', choices=('walk', 'idle'), default='walk')
+    parser.add_argument('--clip', choices=('walk', 'idle', 'turn'), default='walk')
     args = parser.parse_args()
     try:
         author(args.source, args.source_sha256, args.species, args.output, args.clip)
