@@ -1,13 +1,13 @@
 # M0 device matrix
 
-Updated 2026-10-16 from live inventory and owner reports; runtime deployment evidence remains dated October 15. This is an inventory, not a support or performance claim.
+Updated 2026-10-16 from live inventory, device launches and owner reports; each result is limited to its recorded build. This is an inventory, not a support or performance claim.
 
 | Role | Hardware/software | Evidence | Status |
 |---|---|---|---|
-| Baseline candidate | Physical iPhone 14 Pro (iPhone15,2); iOS 26.6.2 (23G90) | Live `devicectl` inventory; operator confirmed diagnostic panel | October 16: local-network connected/paired, Developer Mode enabled. October 15: signed diagnostic installed/launched; animal/AR performance NOT RUN |
-| iOS build host | Apple silicon (arm64), macOS 26.6.2 (25G83), Xcode 27.0 (27A266a), iOS SDK 27.0 | Live host commands and build logs | Unity 6000.6.6f1 (d20c9ac777da); iOS support installed through Hub; diagnostic compilation/export/Xcode build PASS |
+| Baseline candidate | Physical iPhone 14 Pro (iPhone15,2); iOS 26.6.2 (23G90) | Live `devicectl` inventory; operator confirmed diagnostic panel | October 16 continuation 014: wired connection and diagnostic launch verified after owner unlock; ten-clip animal preflight evidence is separate. Animal/AR performance NOT RUN |
+| iOS build host | Apple silicon (arm64), macOS 26.6.2 (25G83), Xcode 27.1 (27A9275), iOS SDK 27.1 | October 16 continuation 014 host commands/build logs; earlier evidence uses Xcode 27.0 | Unity 6000.6.6f1 (d20c9ac777da); iOS support installed through Hub; diagnostic compilation/export/Xcode build PASS |
 | Signing | Local Apple development identity; owner-approved team and diagnostic bundle ID | Successful Xcode signing/install | PASS for local development; credentials remain local |
-| Source/analysis host | Current Mac workspace; Python 3.14.6 and Git | 81 passing Python tests (synthetic fixtures) and real complete/interrupted-capture analysis | Local tooling works; initial Linux results retained as historical evidence |
+| Source/analysis host | Current Mac workspace; Python 3.14.6 and Git | 84 passing Python tests (synthetic fixtures) and real complete/interrupted-capture analysis | Local tooling works; initial Linux results retained as historical evidence |
 | Separate flagship comparison | Not nominated | None | NOT RUN; no 60 FPS claim |
 
 ## Optional inventory refresh
@@ -40,3 +40,10 @@ Owner reported **91% current charge**, explicitly clarified as charge rather tha
 ## Owner-reported Maximum Capacity — continuation 006, October 16
 
 In reply to the explicit Battery Health → Maximum Capacity question, the owner reported **75%**. Record this as owner-reported health, not an independently queried value, current charge, or a scored run-start endpoint. The earlier 91% remains a historical current-charge observation. Repeatable physical layout markings and measured room temperature remain unconfirmed. Health recording alone does not freeze the protocol or establish presentation/input/overhead calibration.
+
+
+## Toolchain refresh — continuation 014, October 16
+
+The selected Xcode is now **27.1 / 27A9275**, with iPhoneOS **27.1** SDK, observed rather than installed by this continuation. macOS remains 26.6.2 / 25G83, Python 3.14.6 and Unity 6000.6.6f1. The prior Xcode 27.0 evidence remains historical; no project/editor downgrade or arbitrary SDK change was made. Current prepare, editor validate, iOS export, signed Debug build, signature verification, installation and initial native/Metal launch pass. User-operated screenshot/incomplete-capture smoke also completes: 47.2536 seconds / 2,834 samples, all native nominal; PNG and exports verify and all 19 prior app files survive unchanged. Inspector correctly returns FAIL for the intentional incomplete stop; no acceptance/performance or calibrated timing follows.
+
+The first inventory/details request could not connect and returned partial cached information despite a successful command exit. It was not counted as a live device check. Owner subsequently connected/unlocked the phone; fresh details report a **physical iPhone 14 Pro**, **wired**, iOS **26.6.2 / 23G90**. Existing diagnostic Documents were copied and hashed before installation. Logs/identifiers remain private in `artifacts/ai-animals-014/`; no serial numbers or signing credentials are committed. Battery health remains the earlier owner-reported 75%; no new measurement inferred.
