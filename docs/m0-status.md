@@ -2,7 +2,7 @@
 
 **M0: PARTIAL. M1–M3: NOT RUN. G-P/G-I/G-F/G-M: NOT RUN.**
 
-Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 40 Python tests pass. Instruments presentation trace remains blocked even over USB. Licensed cat/dog assets remain absent and spending explicitly unapproved. See the final continuation below; earlier sections retain historical results.
+Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 48 Python tests pass. A short Instruments Metal trace/export/inspection now works after unlock/relaunch, while timing calibration remains incomplete. Licensed cat/dog assets remain absent and spending explicitly unapproved. See the final continuation below; earlier sections retain historical results.
 
 ## Delivered
 - Initialized a local Git repository on `main`; no remote or public publication.
@@ -24,7 +24,7 @@ Unity compilation, editor tests, iOS build/install, asset rendering, actual FPS/
 | Mac/Xcode build host | Diagnostic Unity export, signed Xcode build and iPhone deployment verified; details below | Revalidate when animal/AR dependencies are introduced |
 | Named owners | Serhan Sari confirmed engineering, art/licensing and testing ownership during live Mac execution | Owner coordinates procurement and protocol freeze |
 | Licensed cat/dog assets | No licensed packages present; shortlist documented; owner keeps spending unapproved | Owner supplies suitable already-licensed assets or later approves procurement; no spending now |
-| Timing/thermal validation | Update proxy only; native nominal thermals verified through full run; Instruments trace blocked over USB | Resolve Instruments visibility and calibrate presentation/input timing; transitions/overhead untested |
+| Timing/thermal validation | Update proxy only; native nominal thermals verified through full run; short independent Metal trace now exported/inspected | Correlate recorder/presentation clocks and calibrate input timing and overhead; thermal transitions untested |
 | Protocol freeze | Thresholds documented; warm-up, rooms and battery context not frozen | Test owner records conditions and protocol revision before scoring |
 | Research funding | Numerical caps/funding/vendors/cohort remain unset | Product/finance/research owners complete R0; no billable research starts |
 
@@ -245,3 +245,28 @@ Private archive `artifacts/m0-native-full-capture-007.zip`, SHA-256 `01a5eb4b938
 The full-duration native nominal-thermal path is now verified, superseding earlier pending full-run notes. Thermal transitions, instrumentation overhead, independent on-glass presentation, touch-to-visible latency, offline/network behavior, animal realism/motion/AR and owner-identity acceptance remain untested. Connection inventory during capture used local-network transport, so unchanged battery readings do not establish charge state or power efficiency. App-rendered screenshot export works; video recording remains unimplemented.
 
 **Next blockers:** suitable licensed cat/dog packages with the required motion/rights evidence (owner explicitly leaves spending unapproved), and Instruments device visibility/calibrated timing. Resolving timing may require an interactive Instruments/Xcode device-support investigation; USB alone did not resolve it. No unpairing, security reset or speculative toolchain downgrade was performed. Marked living-room layouts, ambient/battery-health context, protocol freeze, reviewers and blinded evaluation remain outstanding. **M0 PARTIAL; M1–M3 and all product gates NOT RUN.** No further animal/AR implementation can proceed under the asset prerequisite. No paid services, purchases, reconstruction jobs or M4–M14 implementation performed.
+
+
+## Presentation setup continuation 008 — Instruments attach recovered
+
+Continued from `429f25b` with spending still unapproved. No animal/AR implementation, asset acquisition, app rebuild or installation occurred. Existing phone build remains `3c03af8` / GUID `252cc88c97e84661be47da3e43e453b8`. Earlier diagnostic captures and failed trace attempts remain preserved.
+
+Initial refreshed inventory again showed the paired/wired phone available to CoreDevice but offline in Instruments. A short HUD-enabled relaunch was denied because iOS reported the phone locked (`artifacts/metal-hud-launch-008.json` / `metal-hud-console-008.log`). The owner then explicitly unlocked it. Relaunch succeeded, temporary Metal HUD logging appeared, and Instruments subsequently listed the phone online. Unlock/relaunch restored attachment in this attempt; this does not prove one definitive cause for every earlier offline failure.
+
+| Check | Actual result | Private local evidence |
+|---|---|---|
+| Python regression tests | PASS — **48 tests**, including eight new synthetic Metal-export tests | `artifacts/python-tests-final-008.log`, `metal-trace-tests-008.log` |
+| Unity editor validation | PASS, existing source still compiles and PNG/thermal contract checks execute | `artifacts/validate-20261016T011311Z-e07d87ef.log` / `.json` |
+| HUD logging smoke | PASS for log availability only; 20 raw batches between 21:13:59.801 and 21:14:09.491 America/New_York | `artifacts/metal-hud-console-008-unlocked.log`, `metal-hud-smoke-008.json` |
+| Restore normal launch | PASS, new process 4317; no HUD variables supplied; app still alive after trace | `artifacts/normal-launch-after-hud-008.json`, `normal-console-after-hud-008.log`, `device-processes-after-trace-008.log` |
+| Metal System Trace attachment/recording | PASS, exit 0; requested 15-second limit, trace summary duration 16.903717 seconds; saved successfully | `artifacts/metal-diagnostics-008.trace/`, `metal-trace-008.log` / `.json` |
+| TOC and displayed-surface XML export | PASS; target is physical iPhone 14 Pro, iOS 26.6.2, Everkio PID 4317 | `artifacts/metal-trace-008-toc.xml`, `metal-displayed-surfaces-008.xml`, export logs |
+| Process-attributed swap inspection | **PARTIAL / G-P NOT RUN**; 977 swaps across 16.446209041 seconds, one unattributed row excluded; p95 adjacent swap interval 16.679792 ms, worst 66.718875 ms | `artifacts/metal-swap-analysis-008.json` |
+
+Added standard-library-only `tools/metal_trace.py` and documented commands in the Mac quickstart. The inspector follows typed XML references, checks observed Instruments schema/row structure, attributes swaps by the selected PID, requires a single named display and strictly increasing swap times, hashes the raw export and refuses report overwrite. Tests cover referenced records, foreign/unattributed rows, missing/cyclic references, duplicate IDs, ordering, mixed displays/processes, wrong schema/types/row shape, missing target and CLI overwrite behavior. No changes to animal acceptance thresholds or raw recorder provenance.
+
+This is a short idle diagnostic trace, with no simultaneous recorder capture, frozen warm-up or common-clock correlation. No ten-minute sustained performance or touch result is claimed from it. The worst swap interval is retained rather than hidden by p95. CPU-to-display latency is not touch-to-visible latency. HUD logging is a separate startup workload; raw batches and duplicate-metric warnings are retained, but batching/overlap/units are not sufficiently validated to pool HUD metrics. Normal launch was restored before the Metal trace, so HUD values are not substituted for trace results. The trace attachment blocker is recovered for this attempt; full presentation/input calibration, independent physical timing and instrumentation overhead remain open.
+
+XML export SHA-256 `4ea858cda57832b1f3f497f7e3c2f31d4e5fefd47db41d2206b08c3f64041859`. Private evidence archive `artifacts/m0-presentation-setup-008.zip`, SHA-256 `5660be17a2b60265a0ed6c1ffe85db26081641609cbd919b4936054e147b8d1f`; 626 files including the trace package, exports, analysis, device/launch logs, tests and inspector source; ZIP integrity verified. Per-file hashes: `artifacts/evidence-index-008.json`. The system trace contains device/other-process metadata and remains local/ignored. No credentials are committed.
+
+**Next blocker remains licensed cat/dog assets and rights/motion coverage.** Spending remains explicitly unapproved; the existing shortlist does not grant procurement or redistribution rights. Owner-supplied suitable already-licensed assets or a later approved procurement decision is needed before animal/AR implementation. Room layouts, ambient/battery-health context, calibrated protocol, independent reviews and cohort evidence remain missing. **M0 PARTIAL; M1–M3 and G-P/G-I/G-F/G-M NOT RUN.** No paid services, research/reconstruction jobs or M4–M14 implementation performed.

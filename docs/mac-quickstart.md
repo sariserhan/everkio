@@ -77,7 +77,7 @@ Use a new destination and retain all run directories, including incomplete captu
 python3 tools/benchmark.py /path/to/exported/run
 ```
 
-An instrumentation capture **must remain PARTIAL or FAIL**, never an animal-presence PASS. It has no animal, validated presentation timing, touch latency or native thermal evidence. Use it to test the collection/export/analysis path only. Even a successful device launch does not pass M0's remaining asset/protocol prerequisites or any G-P gate.
+An instrumentation capture **must remain PARTIAL or FAIL**, never an animal-presence PASS. It has no animal, validated presentation timing or touch-latency evidence. Current iOS builds export native thermal categories; the complete nominal-state diagnostic is recorded in the status log, with transitions and overhead still untested. Use it to test the collection/export/analysis path only. Even a successful device launch does not pass M0's remaining asset/protocol prerequisites or any G-P gate.
 
 ## Implementation references
 The runner uses Unity's [command-line execution](https://docs.unity.com/en-us/engine/6000.3/manual/unity-editor/command-line-arguments/run-unity) and [editor argument contract](https://docs.unity.com/en-us/engine/6000.3/manual/unity-editor/command-line-arguments/editor). No shell interpolation, cloud build service or network inference is used by the runner. Unity may contact its licensing/package services when launched.
@@ -95,3 +95,38 @@ xcrun devicectl device copy from --device YOUR_DEVICE_UDID   --domain-type appDa
 ```
 
 Preserve PNG hashes and source/build/device provenance with the M0 evidence. These diagnostic images do not qualify as animal-presence clips or implement the deferred product media-sharing/recording flow.
+
+
+## Presentation measurement setup checks
+
+Use these only after a data capture has completed and its raw files are safely copied. Keep the phone connected, unlocked and the diagnostic foregrounded. `devicectl` availability alone does not prove Instruments can attach: compare `xcrun xctrace list devices` and `xcrun xcdevice list --timeout 5`. In the live continuation, the phone became online in Instruments after unlock and a successful relaunch; the exact cause of the earlier offline state is not proven. Do not unpair/reset the device or downgrade the toolchain just to clear an offline listing.
+
+Apple documents an alternate [Metal Performance HUD logging path](https://developer.apple.com/documentation/xcode/monitoring-your-metal-apps-graphics-performance). For a short setup smoke test, relaunch the idle diagnostic with temporary process environment variables:
+
+```sh
+xcrun devicectl device process launch --device YOUR_DEVICE_UDID \
+  --terminate-existing \
+  --environment-variables '{"MTL_HUD_ENABLED":"1","MTL_HUD_LOG_ENABLED":"1"}' \
+  --console com.yourcompany.everkio.diagnostics
+```
+
+`--terminate-existing` stops the app: never use it during a timing capture. The attached console must run in a separate Terminal. After collecting a short log, use another Terminal to relaunch without those environment variables; that restores the normal rendering workload and ends the old console attachment. Confirm the normal launch succeeds. No persistent Developer-setting or project change is required.
+
+HUD logging was observed on the physical phone; this tests log availability only. Preserve raw lines and startup/warning context. Do not pool batches into acceptance statistics until frame numbering, units, overlapping batches, common-clock alignment and instrumentation overhead are validated. HUD values must not be used to relabel earlier Update CSVs as presentation evidence. Touch-to-visible timing still needs an independent validated method, and no diagnostic can establish animal presence.
+
+
+Once Instruments lists the phone online, obtain its current PID from `devicectl device info processes` and use a new trace destination:
+
+```sh
+xcrun xctrace record --template 'Metal System Trace' --device YOUR_DEVICE_UDID \
+  --attach CURRENT_APP_PID --time-limit 15s --output artifacts/new-metal.trace
+xcrun xctrace export --input artifacts/new-metal.trace --toc \
+  --output artifacts/new-metal-toc.xml
+xcrun xctrace export --input artifacts/new-metal.trace \
+  --xpath '/trace-toc/run[@number="1"]/data/table[@schema="displayed-surfaces-interval"]' \
+  --output artifacts/new-metal-surfaces.xml
+python3 tools/metal_trace.py artifacts/new-metal-surfaces.xml \
+  --pid CURRENT_APP_PID --output artifacts/new-metal-analysis.json
+```
+
+The PID must come from this trace, rather than an older launch. Recording/export succeeded with Xcode 27.0 on the baseline phone. The inspector reads the observed Xcode 27 XML schema, follows typed references, selects process-attributed swaps on one display, rejects ambiguous/malformed ordering and preserves an export hash. Timestamps use the export's integer nanoseconds. It reports adjacent swap intervals, not the CPU-to-display column or inferred touch latency. It does not sort or merge traces, relabel Update CSVs or declare protocol acceptance. Exit 1 means the expected PARTIAL setup result; malformed evidence/IO or an existing report returns 2. Keep all trace files private: a system trace can contain other process/device metadata.
