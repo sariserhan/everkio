@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-15",
+  "tool": "built-in image_gen.imagegen",
+  "tool_model_version": null,
+  "purpose": "Experimental paint for generic mesh projection; no customer media or animal/AR gate evidence",
+  "assets": [
+    {
+      "species": "cat",
+      "file": "cat-paint-sheet-v1.png",
+      "prompt": "Use case: precise-object-edit. Asset type: experimental six-view colour projection sheet for a 3D animal mesh. Image 1 is the edit target: six gray mesh views on a 1536x1024 canvas in a rigid 3-column, 2-row grid. Image 2 is the original synthetic tabby reference for coat colours and fur detail only. Paint natural short brown-gray tabby fur, green eyes, pink nose and paw pads onto ONLY the six mesh surfaces in image 1. Preserve exactly every mesh silhouette, limb/paw/tail location, head angle, view orientation, object size, pixel placement and all six tile positions. Preserve all empty gray background pixels and exact canvas aspect ratio. The upper row is front, left side, back; lower row is right side, top, underside. All six are the SAME adult animal: consistent tabby stripes, pale belly/chin and ringed tail. Fine realistic short-fur colour detail, flat diffuse colour, minimal baked lighting. No new limbs, no geometry redesign, no extra animals/views, no crop, no labels, no text or borders. This is texture-paint reference art, not an AR screenshot. The exact original mesh projections must remain registered.",
+      "sha256": "10a65dedfd5691153ffc2207501dde32970220f45594e2467eb47cdcd017bd34",
+      "mesh_target_sha256": "d04525740cd25f581df637b4c812f34d291b3ed1682f4e580ceb095fb6a6e1d6",
+      "projection_metadata_sha256": "7c55e8077977f2293954e673735d134cd72d32f745f8b870add2e4da313d6838",
+      "rig_fit_sha256": "770bce21916752b9a4c9a9d3365286714bfb2a590c70cb69445bdf962bf5393e",
+      "limitations": "Projection-paint draft; registration/lighting not guaranteed; not accepted fur, motion or AR evidence"
+    },
+    {
+      "species": "dog",
+      "file": "dog-paint-sheet-v1.png",
+      "prompt": "Use case: precise-object-edit. Asset type: experimental six-view colour projection sheet for a 3D animal mesh. Image 1 is the edit target: six gray mesh views on a 1536x1024 canvas in a rigid 3-column, 2-row grid. Image 2 is the original synthetic yellow Labrador reference for coat colours and fine short fur only. Paint realistic cream-golden short Labrador fur, brown eyes, black nose, dark paw pads and natural ear interiors onto ONLY the six mesh surfaces in image 1. Preserve exactly every mesh silhouette, limb/paw/tail location, head angle, view orientation, object size, pixel placement and all six tile positions. Preserve the empty gray background and exact canvas aspect ratio. Upper row front, left side, back; lower row right side, top, underside. All six depict the SAME adult dog with consistent coat colour. Fine realistic short-fur colour detail; flat diffuse colour with minimal baked lighting. No geometry redesign, new limbs, added animals or views, no crop, labels, text or borders. This is texture-paint reference art, not an AR screenshot. Keep the original mesh projections registered exactly.",
+      "sha256": "70fc7a5d15715abf72ec0ef21b8a2ca082e33c50184d66b6286846b909fe4e44",
+      "mesh_target_sha256": "d2c144ec79b22edd32e5d781445a3fa623778bc8c5ca0f11563b75fcea48e595",
+      "projection_metadata_sha256": "3b398356e754fd1f68ff5db212d32c8a322c8103bf37d193ed4133bc4015d1eb",
+      "rig_fit_sha256": "096ff6d059966559ed2e2ed54bd15db9463858cf6cce3d568cf7e020f554dd37",
+      "limitations": "Projection-paint draft; registration/lighting not guaranteed; not accepted fur, motion or AR evidence"
+    }
+  ],
+  "spending": "No API credentials, paid infrastructure or hosted 3D inference configured; built-in subscription/account cost not independently measured"
+}

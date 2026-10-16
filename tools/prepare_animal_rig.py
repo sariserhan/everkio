@@ -35,6 +35,18 @@ def check_fit(mesh, fit, output):
         raise ValueError('Unsupported draft orientation or polygon budget')
 
 
+def unregister_rig_ui(rig, bpy):
+    # Rigify executes UI registration outside the addon; addon_disable cannot undo it.
+    namespaces = []
+    for panel in bpy.types.Panel.__subclasses__():
+        namespace = getattr(getattr(panel, 'draw', None), '__globals__', {})
+        if namespace.get('rig_id') == rig.data['rig_id'] and all(namespace is not item for item in namespaces):
+            namespaces.append(namespace)
+    if len(namespaces) != 1 or not callable(namespaces[0].get('unregister')):
+        raise ValueError('Cannot identify the generated rig UI for orderly cleanup')
+    namespaces[0]['unregister']()
+
+
 def prepare(mesh_path, fit_path, output):
     fit = json.loads(Path(fit_path).read_text())
     check_fit(mesh_path, fit, output)
@@ -51,6 +63,8 @@ def prepare(mesh_path, fit_path, output):
               'limitations': ['Initial template fit, not validated anatomy or motion',
                               'Height normalized to 1.0; physical scale is not established',
                               'No fur, eye materials, gait or contact acceptance']}
+    rig = None
+    rigify_enabled = False
     try:
         bpy.ops.wm.read_factory_settings(use_empty=True)
         bpy.ops.import_scene.gltf(filepath=str(Path(mesh_path).resolve()))
@@ -103,6 +117,7 @@ def prepare(mesh_path, fit_path, output):
             polygon.use_smooth = True
 
         bpy.ops.preferences.addon_enable(module='rigify')
+        rigify_enabled = True
         bpy.ops.object.select_all(action='DESELECT')
         bpy.ops.object.armature_basic_quadruped_metarig_add()
         meta = bpy.context.object
@@ -168,9 +183,19 @@ def prepare(mesh_path, fit_path, output):
         report['error'] = str(error)
         raise
     finally:
-        with (output / 'rig-preparation.json').open('x') as stream:
-            json.dump(report, stream, indent=2, allow_nan=False)
-            stream.write('\n')
+        try:
+            if rig is not None:
+                unregister_rig_ui(rig, bpy)
+            if rigify_enabled:
+                bpy.ops.preferences.addon_disable(module='rigify')
+            report['rigify_cleanup'] = 'complete'
+        except Exception as error:
+            report.update(status='FAIL', cleanup_error=str(error))
+            raise
+        finally:
+            with (output / 'rig-preparation.json').open('x') as stream:
+                json.dump(report, stream, indent=2, allow_nan=False)
+                stream.write('\n')
 
 
 def main():

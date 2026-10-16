@@ -54,5 +54,39 @@ class RigFitTests(unittest.TestCase):
                 with self.assertRaises(ValueError): check_fit(self.mesh, fit, self.output)
 
 
+class RigUICleanupTests(unittest.TestCase):
+    def fake_bpy(self, namespaces):
+        from types import FunctionType, SimpleNamespace
+        panels = []
+        for namespace in namespaces:
+            draw = FunctionType((lambda: None).__code__, namespace)
+            panels.append(type('GeneratedPanel', (), {'draw': draw}))
+        return SimpleNamespace(types=SimpleNamespace(Panel=SimpleNamespace(__subclasses__=lambda: panels)))
+
+    def test_unregisters_matching_generated_namespace_once(self):
+        from types import SimpleNamespace
+        from tools.prepare_animal_rig import unregister_rig_ui
+        calls = []
+        match = {'rig_id': 'owned-rig', 'unregister': lambda: calls.append('owned')}
+        other = {'rig_id': 'other-rig', 'unregister': lambda: calls.append('other')}
+        unregister_rig_ui(SimpleNamespace(data={'rig_id': 'owned-rig'}), self.fake_bpy([other, match, match]))
+        self.assertEqual(calls, ['owned'])
+
+    def test_ambiguous_or_missing_registration_rejected_before_cleanup(self):
+        from types import SimpleNamespace
+        from tools.prepare_animal_rig import unregister_rig_ui
+        calls = []
+        same_callback = lambda: calls.append('ambiguous')
+        for namespaces in [[], [{'rig_id': 'owned-rig'}],
+                           [{'rig_id': 'owned-rig', 'unregister': same_callback},
+                            {'rig_id': 'owned-rig', 'unregister': same_callback}],
+                           [{'rig_id': 'owned-rig', 'unregister': lambda: calls.append(1)},
+                            {'rig_id': 'owned-rig', 'unregister': lambda: calls.append(2)}]]:
+            with self.subTest(namespaces=namespaces):
+                with self.assertRaises(ValueError):
+                    unregister_rig_ui(SimpleNamespace(data={'rig_id': 'owned-rig'}), self.fake_bpy(namespaces))
+                self.assertEqual(calls, [])
+
+
 if __name__ == '__main__':
     unittest.main()

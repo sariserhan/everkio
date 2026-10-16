@@ -27,7 +27,7 @@ Exit codes: 0 = single-run numerical checks passed; 1 = incomplete or failing ev
 - `unity/Packages/com.everkio.benchmarks/`: local recorder and diagnostic controls; compiled and exercised on iPhone with diagnostic evidence only.
 - `tools/unity_project.py`: source check, prepare, validate and guarded iOS export commands.
 - `tools/generate_animal.py`: pinned local CPU AI-to-3D evaluation with model/config checksums and immutable outputs; no accepted animal rig is implied.
-- `tools/prepare_animal_rig.py`: experimental pinned Blender quadruped preparation; output checks work, but the PyPI Blender process currently crashes during shutdown. Not a reliable unattended pipeline.
+- `tools/prepare_animal_rig.py`: pinned Blender draft quadruped preparation with source/fit guards and orderly Rigify UI cleanup; tested on both generated animals, without claiming motion/realism acceptance.
 - [AI animal generation](docs/ai-animal-generation.md): original references, reproducible local workflow, generated mesh evidence and actual quality defects.
 - [Mac quickstart](docs/mac-quickstart.md): exact commands to compile and export for your iPhone.
 - [Benchmark protocol](docs/benchmark-protocol.md): methods, limitations and interpretation.

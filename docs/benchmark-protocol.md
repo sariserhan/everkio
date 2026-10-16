@@ -46,7 +46,7 @@ Serhan Sari confirmed the living room for the proposed open-floor/furnished conf
 | L1 | Daylight | Date/time, window/blind positions, ambient conditions and starting device thermal state |
 | L2 | Artificial evening light | Lights used and positions, ambient conditions and starting device thermal state |
 
-Room/lighting identifiers must accompany actual animal runs after the layouts are documented. Warm-up remains the existing 30-second draft pending animal load/measurement calibration and protocol freeze. Battery health/start charge, ambient context, presentation/touch validation method and thermal/overhead calibration still need recording before scored runs. Wired diagnostic battery increases do not qualify as battery-drain measurements. These conditions do not remove the licensed-asset or procurement blockers.
+Room/lighting identifiers must accompany actual animal runs after the layouts are documented. Warm-up remains the existing 30-second draft pending animal load/measurement calibration and protocol freeze. Battery health/start charge, ambient context, presentation/touch validation method and thermal/overhead calibration still need recording before scored runs. Wired diagnostic battery increases do not qualify as battery-drain measurements. These conditions do not waive usable animal quality, source/output rights or the remaining calibration requirements. AI generation is the selected asset direction; stock procurement is optional and spending is unapproved.
 
 
 ## Diagnostic visual evidence
