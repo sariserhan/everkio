@@ -14,6 +14,8 @@ These are leads from current publisher/store listings, not verified photorealist
 
 Recommended next decision: request a cat/dog clip/material inventory for the Red Deer pack and compare cat footage against Indie Cat. No candidate is selected. A vendor page or a still render cannot establish M1 acceptance. If none supports convincing moving animals on the target phone, seek an owned asset or a separately quoted custom commission; do not substitute cartoons.
 
+Art/licensing and engineering owner: **Serhan Sari**, confirmed during the live Mac run. Budget and final asset selection remain unapproved.
+
 ## Acquisition and rights record required
 
 Before purchasing/importing, record the legal licensee, named art/engineering owner, all-in budget approval, exact asset/version and shader dependencies, receipt, dated license terms and publisher provenance. Preserve raw source and a SHA-256 inventory privately; commit only rights records safe to share and import instructions. Do not place licensed source in a public repository.
