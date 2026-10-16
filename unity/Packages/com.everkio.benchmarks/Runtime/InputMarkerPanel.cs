@@ -43,7 +43,8 @@ namespace Everkio.Benchmarks
 
         public void Begin()
         {
-            if (IsRunning || GetComponent<PresenceRecorder>().IsRunning)
+            if (IsRunning || GetComponent<PresenceRecorder>().IsRunning || GetComponent<TelemetryCostProbe>()?.IsRunning == true ||
+                GetComponent<DiagnosticPanel>()?.IsSavingScreenshot == true)
                 throw new InvalidOperationException("Finish the active diagnostic before starting the input marker.");
             manifest = new Manifest { run_id = Guid.NewGuid().ToString("N"), started_utc = DateTime.UtcNow.ToString("O"),
                 build_guid = Application.buildGUID, device_model = SystemInfo.deviceModel,

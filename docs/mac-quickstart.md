@@ -143,3 +143,7 @@ xcrun devicectl device copy from --device YOUR_DEVICE_UDID \
 ```
 
 Preserve incomplete runs and keep files private. The exported receipt times and requested marker states are not first-visible times; do not convert them into acceptance `touches.csv`. See the [setup protocol and limits](benchmark-protocol.md#input-marker-setup-fixture--uncalibrated). The separate **Everkio Asset Check** app contains the generated-animal drafts and has no input-marker controls.
+
+## Telemetry call-cost setup
+
+With no capture, screenshot or input marker running, scroll to **Measure telemetry call cost (setup only)** and tap once. Keep Diagnostics foregrounded until it says **Telemetry cost setup exported** (normally a few seconds; timeout at 30 seconds). No camera recording is needed. Copy `Documents/EverkioDiagnostics/TelemetryCost` from the app container to a new absolute local directory, using the existing copy command and your approved device/bundle. Analyze the individual run with `python3 tools/telemetry_cost.py RUN --output NEW_REPORT.json`. A valid report intentionally returns 1/PARTIAL; it cannot pass full-overhead, display or touch calibration. Preserve interrupted fixtures and raw tick data. See the [method and exclusions](benchmark-protocol.md#telemetry-call-cost-setup-probe--partial-overhead-evidence).

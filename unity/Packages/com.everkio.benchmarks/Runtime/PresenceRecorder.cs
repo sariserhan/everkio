@@ -37,13 +37,18 @@ namespace Everkio.Benchmarks
         private string runId;
         private static readonly CultureInfo Invariant = CultureInfo.InvariantCulture;
 
-        private struct Sample
+        internal struct Sample
         {
             public double elapsed;
             public long memory;
             public float battery;
             public ThermalTelemetry.State thermal;
         }
+
+        internal static Sample ReadSample(double elapsed) => new Sample {
+            elapsed = elapsed, memory = Profiler.GetTotalAllocatedMemoryLong(),
+            battery = SystemInfo.batteryLevel, thermal = ThermalTelemetry.Read()
+        };
 
         [Serializable]
         private sealed class Manifest
@@ -63,6 +68,9 @@ namespace Everkio.Benchmarks
         public void BeginCapture()
         {
             if (running) throw new InvalidOperationException("Capture already running.");
+            if (GetComponent<InputMarkerPanel>()?.IsRunning == true || GetComponent<TelemetryCostProbe>()?.IsRunning == true ||
+                GetComponent<DiagnosticPanel>()?.IsSavingScreenshot == true)
+                throw new InvalidOperationException("Finish the active diagnostic setup before capturing.");
             if (species != "cat" && species != "dog")
                 throw new InvalidOperationException("Set species to cat or dog first.");
             if (float.IsNaN(warmupSeconds) || float.IsInfinity(warmupSeconds) || warmupSeconds < 0 ||
@@ -89,12 +97,7 @@ namespace Everkio.Benchmarks
             if (samples.Count == 0) origin = now;
             Status = "Capturing";
             if (samples.Count >= MaxSamples) { Finish(false, "sample_limit"); return; }
-            samples.Add(new Sample {
-                elapsed = (now - origin) * 1000,
-                memory = Profiler.GetTotalAllocatedMemoryLong(),
-                battery = SystemInfo.batteryLevel,
-                thermal = ThermalTelemetry.Read()
-            });
+            samples.Add(ReadSample((now - origin) * 1000));
             if (now - origin >= captureSeconds) Finish(true, "duration_reached");
         }
 

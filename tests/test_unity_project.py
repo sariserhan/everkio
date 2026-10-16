@@ -66,6 +66,7 @@ class UnityProjectTests(unittest.TestCase):
 
     def test_zero_exit_without_completion_marker_fails(self):
         with tempfile.TemporaryDirectory() as d, patch.object(unity_project, 'ROOT', Path(d)), \
+             patch.object(unity_project, 'PROJECT', Path(d)), \
              patch.object(unity_project.subprocess, 'run') as run:
             run.return_value.returncode = 0
             result = unity_project.main(['prepare', '--unity', sys.executable])
@@ -75,6 +76,7 @@ class UnityProjectTests(unittest.TestCase):
 
     def test_success_requires_method_completion_evidence(self):
         with tempfile.TemporaryDirectory() as d, patch.object(unity_project, 'ROOT', Path(d)), \
+             patch.object(unity_project, 'PROJECT', Path(d)), \
              patch.object(unity_project.subprocess, 'run') as run:
             def completed(args, **kwargs):
                 Path(args[args.index('-logFile') + 1]).write_text('EVERKIO_PREPARE_OK 6000.6.6f1')

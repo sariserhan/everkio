@@ -10,11 +10,13 @@ namespace Everkio.Benchmarks
     {
         private PresenceRecorder recorder;
         private InputMarkerPanel inputMarker;
+        private TelemetryCostProbe costProbe;
         private GUIStyle label;
         private GUIStyle button;
         private Vector2 scroll;
         private int previousFrameRate;
         private bool savingScreenshot;
+        public bool IsSavingScreenshot => savingScreenshot;
         private string screenshotStatus = "Screenshots save to private app files, not Photos. Video recording is not included.";
         private void Awake()
         {
@@ -23,6 +25,8 @@ namespace Everkio.Benchmarks
             recorder = GetComponent<PresenceRecorder>();
             inputMarker = GetComponent<InputMarkerPanel>();
             if (inputMarker == null) inputMarker = gameObject.AddComponent<InputMarkerPanel>();
+            costProbe = GetComponent<TelemetryCostProbe>();
+            if (costProbe == null) costProbe = gameObject.AddComponent<TelemetryCostProbe>();
             recorder.sceneContent = "instrumentation_only";
         }
 
@@ -59,22 +63,26 @@ namespace Everkio.Benchmarks
             }
             GUILayout.Label("Frames: " + recorder.SampleCount, label);
             GUILayout.Label("Device thermal state: " + recorder.ThermalState, label);
-            GUI.enabled = !recorder.IsRunning && !savingScreenshot;
+            GUI.enabled = !recorder.IsRunning && !savingScreenshot && !costProbe.IsRunning;
             if (GUILayout.Button("Start cat-labelled diagnostic", button, GUILayout.Height(70))) StartCapture("cat");
             if (GUILayout.Button("Start dog-labelled diagnostic", button, GUILayout.Height(70))) StartCapture("dog");
             GUI.enabled = recorder.IsRunning;
             if (GUILayout.Button("Stop and save incomplete capture", button, GUILayout.Height(70))) recorder.StopCapture();
             GUI.enabled = true;
             GUILayout.Space(20);
-            GUI.enabled = !recorder.IsRunning && !savingScreenshot;
+            GUI.enabled = !recorder.IsRunning && !savingScreenshot && !costProbe.IsRunning;
             if (GUILayout.Button("Save diagnostic screenshot", button, GUILayout.Height(70)))
                 StartCoroutine(SaveDiagnosticScreenshot());
             GUI.enabled = true;
             GUILayout.Label(screenshotStatus, label);
-            GUI.enabled = !recorder.IsRunning && !savingScreenshot;
+            GUI.enabled = !recorder.IsRunning && !savingScreenshot && !costProbe.IsRunning;
             if (GUILayout.Button("Start input marker setup", button, GUILayout.Height(70))) inputMarker.Begin();
             GUI.enabled = true;
             GUILayout.Label(inputMarker.Status, label);
+            GUI.enabled = !recorder.IsRunning && !savingScreenshot && !costProbe.IsRunning;
+            if (GUILayout.Button("Measure telemetry call cost (setup only)", button, GUILayout.Height(70))) costProbe.Begin();
+            GUI.enabled = true;
+            GUILayout.Label(costProbe.Status, label);
             if (recorder.IsRunning) GUILayout.Label("Screenshots are available after the data capture stops, to avoid disturbing timing samples.", label);
             GUILayout.Label("30-second draft warm-up; 10-minute capture. Keep this app foregrounded. Update cadence is not display or touch latency.", label);
             if (!string.IsNullOrEmpty(recorder.LastExportPath)) GUILayout.Label("Saved: " + recorder.LastExportPath, label);
@@ -97,7 +105,7 @@ namespace Everkio.Benchmarks
             Texture2D screenshot = null;
             try
             {
-                if (!Application.isFocused || recorder.IsRunning)
+                if (!Application.isFocused || recorder.IsRunning || costProbe.IsRunning || inputMarker.IsRunning)
                     throw new InvalidOperationException("Keep the app foregrounded and stop data capture before saving a screenshot.");
                 screenshot = ScreenCapture.CaptureScreenshotAsTexture();
                 if (screenshot == null) throw new IOException("Screen capture returned no image.");
