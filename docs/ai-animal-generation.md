@@ -223,3 +223,51 @@ V4 GLB export/reimport checks **all 181 frames**: maximum mapped surface error c
 Context7 was not available and the official Blender API web fetch returned HTTP 402; installed Blender RNA descriptions separately confirm that actions, drivers and NLA tracks are distinct. Local snapshot: `installed-blender-api.json`. No dependency was added to the product or test runtime.
 
 Final review videos: [cat](../artifacts/ai-animals-005/cat-start-stop-v4/motion-review.mp4), [dog](../artifacts/ai-animals-005/dog-start-stop-v4/motion-review.mp4). Each is a **61-frame / 10 FPS / 6.1-second** H.264 preview at 640×576, sampling every third frame of the 181-frame / 30 FPS authoring clip. This reduced preview cadence is not a motion/performance measurement. Full FFmpeg decode succeeds, and extracted frames at 0.5/2.5/5.5 seconds were inspected. Labels state draft/not AR; stiffness, unfinished anatomy/coat/eyes and awkward leg spacing remain. Earlier V3 render was intentionally cancelled to render corrected V4 instead; its incomplete output/log and cancellation manifest are preserved, never treated as a completed review video. No human-review or presence gate is inferred.
+
+## Idle motion and head/neck fit correction 006
+
+Baseline `7a55f2b`; local generic asset preparation only. No spending, gated model, hosted generation, customer media or reconstruction research. The main Unity product project is unchanged and remains a diagnostic harness.
+
+`tools/author_animal_motion.py --clip idle` now authors a six-second/181-frame candidate with two small chest-lift cycles and a smooth head look. The default `--clip walk` retains the prior start/walk/stop path. Idle checks require finite moving surface vertices, a closed endpoint pose, fixed foot-control targets and reported whole-surface floor clearance. Stationary-hold checks are explicitly not applicable to an animated idle. This is not validated breathing, gaze/eye tracking, blink or natural motion.
+
+The first cat idle used nonuniform chest scale and had a larger GLB mapped-vertex error, **0.000322500** normalized units. It was within the existing 0.001 engineering smoke tolerance, but prompted investigation rather than a quality claim. Its render was cancelled and preserved. Removing nonuniform scaling reduced error to **0.000023728 cat / 0.000020817 dog** on the original rigs. Native reopened-pose checks confirm movement and exact endpoint closure. Actual original-rig walk CSVs remain **byte-identical** to continuation 005 after adding idle support.
+
+### Fit defect and correction
+
+Transparent front/side/top renders show the generated animals' heads turned relative to their torsos, while the original template head bones point along the torso. Weight inspection also finds shoulder influence in the selected upper-front region. This explains a weak/poorly placed head look; it does not establish a complete anatomical diagnosis.
+
+Added optional `neck_chain_points` to the pinned rig fit: four explicit, normalized endpoints for `spine.008` through `spine.011`, anchored to the existing chest. Validation rejects malformed/nonfinite/out-of-bounds points and degenerate/excessive segments; connected endpoint assertions still run before Rigify generation. Original fit files remain unchanged. New draft candidates:
+
+- `assets/rig-fits/triposg-006-cat-head.json`
+- `assets/rig-fits/triposg-006-dog-head.json`
+
+These points were manually selected from actual mesh overlays, not measured animal anatomy or independently accepted landmarks. Example preparation, using the same private source mesh/environment:
+
+```sh
+artifacts/ai-animals-002/blender-venv/bin/python tools/prepare_animal_rig.py \
+  --mesh artifacts/ai-animals-002/cat-triposg/mesh.glb \
+  --fit assets/rig-fits/triposg-006-cat-head.json --output artifacts/new-cat-head-rig
+```
+
+Both revised rigs prepare/export/shut down successfully, with 46 deform bones, four normalized influences and no unweighted vertices. The original cat fit also reruns successfully as a compatibility check. Native paint transfer verifies **identical vertex positions and polygon indices**, copies existing UVs/materials and retains new weights. Initial lazy image-buffer validation failed; explicitly loading the packed texture resolves that check. Failed script/log and final script remain in evidence 006. The region-weight sum assigned to `DEF-spine.011` rises from 229.59 to 1482.69 for cat and 763.86 to 2661.20 for dog. This is a fixed coordinate-selected region, not a validated head segmentation or realism score.
+
+### Revised motion checks
+
+| Candidate | Max source surface motion | Endpoint/hold result | Max GLB mapped-vertex error |
+|---|---:|---|---:|
+| Cat idle | 0.014959 | Loop error 0 | 0.000023042 |
+| Dog idle | 0.032478 | Loop error 0 | 0.000020658 |
+| Cat start/walk/stop | 1.054634 | Stationary surface holds 0 | 0.000006719 |
+| Dog start/walk/stop | 1.057587 | Stationary surface holds 0 | 0.000004561 |
+
+All values are normalized units. Each GLB checks all 181 frames; all four source sampled floor checks pass. Idle skinned sole-proxy drift: cat 0.000005209 / dog 0.000033087; walk drift: cat 0.002345 / dog 0.002864. Proxies and positive floor clearance are not accepted anatomical contact, continuous-time clearance or physical scale. Exact per-frame data and reports: `artifacts/ai-animals-006/{cat,dog}-refit-{idle,walk}/`.
+
+The separate Unity project `artifacts/asset-compatibility-006/` imports both original-rig idles and all four refit clips. Actual editor CPU skin sampling checks all 181 frames, finite geometry and floor clearance. Refit idles have zero world travel and endpoint surface delta 0; refit walks travel approximately 1.05 with zero displacement during stationary holds. Batch exits 0 with `EVERKIO_REFIT_ASSET_CHECK_OK`. In `unity-refit-results.json`, `endPoseDelta` is endpoint movement (expected for walks), and `holdError` is only an acceptance check for walk bookends (idle intentionally moves). Neither is a product gate. Actual Unity PNGs were inspected and still show unfinished shiny/plastic coat and eyes. Production Animator/GPU/phone behavior and Unity-to-Blender full vertex parity remain untested.
+
+Python regression suite: **81 passing tests** (three new tests across idle/fit guards), plus actual Blender and isolated Unity assertions. No dependency added. Context7 is unavailable; the existing pinned Blender APIs and installed native behavior were used. A current read-only device inventory/details query confirms the iPhone 14 Pro / iOS 26.6.2 (23G90), paired/connected via local network with Developer Mode enabled. No app launch, capture, deployment, battery-health measurement or presentation calibration followed from that metadata query.
+
+Required motion coverage remains incomplete: idle/head look and start/walk/stop are unaccepted drafts; turn, sit, lie, eating/contact, approach and input-triggered reactions are not supplied by this continuation. Fur/eyes/anatomy, independent motion review, scored AR/device evidence and every product gate remain open.
+
+Final refit videos: [cat idle](../artifacts/ai-animals-006/cat-refit-idle/motion-review.mp4), [dog idle](../artifacts/ai-animals-006/dog-refit-idle/motion-review.mp4), [cat walk](../artifacts/ai-animals-006/cat-refit-walk/motion-review.mp4), [dog walk](../artifacts/ai-animals-006/dog-refit-walk/motion-review.mp4). The two original-rig V2 idles are retained for comparison. All six completed previews fully decode: **61 H.264 frames / 10 FPS / 6.1 sec / 640×576**, sampling every third 30-FPS authored frame. Refit idle extremes at 2/4 seconds and walk poses were inspected; captions state draft/not AR. These are low-cadence engineering previews, not natural-motion or performance acceptance. Eyes remain painted, ears/tail static and body movement/coat unfinished. No independent reviewer accepted them.
+
+Owner now reports **75% Battery Health Maximum Capacity** in response to the explicit health question. This is separate from historical 91% charge and does not become CSV battery charge or a measured run-start value. Room markings and measured temperature remain unknown; M0 calibration and protocol freeze are still incomplete. See [device matrix](device-matrix.md).

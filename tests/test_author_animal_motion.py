@@ -3,7 +3,7 @@ import math
 from pathlib import Path
 import tempfile
 import unittest
-from tools.author_animal_motion import author, trajectory, CONTROLS
+from tools.author_animal_motion import author, trajectory, idle_profile, CONTROLS
 
 
 class MotionTrajectoryTests(unittest.TestCase):
@@ -48,7 +48,6 @@ class MotionTrajectoryTests(unittest.TestCase):
                 author(source, '0' * 64, 'cat', output)
             self.assertFalse(output.exists())
 
-
     def test_refuses_existing_output_without_altering_evidence(self):
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / 'source.blend'
@@ -60,6 +59,22 @@ class MotionTrajectoryTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'new output directory'):
                 author(source, hashlib.sha256(source.read_bytes()).hexdigest(), 'dog', output)
             self.assertEqual(evidence.read_text(), 'preserve me')
+
+    def test_idle_is_bounded_smooth_and_closes_at_six_seconds(self):
+        samples = [idle_profile(i / 1000) for i in range(6001)]
+        self.assertTrue(all(0 <= breath <= 1 and abs(yaw) <= math.radians(8) for breath, yaw in samples))
+        self.assertAlmostEqual(max(breath for breath, _ in samples), 1)
+        self.assertGreater(max(yaw for _, yaw in samples), math.radians(5))
+        for seconds in (0, 6):
+            breath, yaw = idle_profile(seconds)
+            self.assertAlmostEqual(breath, 0)
+            self.assertAlmostEqual(yaw, 0)
+            before, after = idle_profile(seconds - 1e-5), idle_profile(seconds + 1e-5)
+            self.assertLess(max(abs(a - b) / 2e-5 for a, b in zip(before, after)), 1e-6)
+
+    def test_invalid_clip_fails_before_reading_source(self):
+        with self.assertRaisesRegex(ValueError, 'Unsupported draft clip'):
+            author('missing.blend', '0' * 64, 'cat', 'missing-output', 'unknown')
 
 
 if __name__ == '__main__':

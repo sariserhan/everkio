@@ -53,6 +53,18 @@ class RigFitTests(unittest.TestCase):
                 fit = dict(self.fit, **{key: value})
                 with self.assertRaises(ValueError): check_fit(self.mesh, fit, self.output)
 
+    def test_reviewed_neck_chain_guard(self):
+        points = [[.035, -.35, .79], [.055, -.4, .82], [.08, -.45, .85], [.2, -.58, .85]]
+        check_fit(self.mesh, dict(self.fit, neck_chain_points=points), self.output)
+        for invalid in (None, [], points[:3], [[0, 0]] * 4,
+                        [[True, 0, .8]] * 4, [[0, float('nan'), .8]] * 4,
+                        [[2, 0, .8]] * 4, [[0, 0, -1]] * 4,
+                        [[0, 0, .8]] * 4, [[0, -2, .8], [0, 1, .8], *points[:2]]):
+            with self.subTest(points=invalid):
+                with self.assertRaises(ValueError):
+                    check_fit(self.mesh, dict(self.fit, neck_chain_points=invalid), self.output)
+        self.assertFalse(self.output.exists())
+
 
 class RigUICleanupTests(unittest.TestCase):
     def fake_bpy(self, namespaces):

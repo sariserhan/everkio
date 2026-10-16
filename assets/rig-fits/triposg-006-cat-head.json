@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "species": "cat",
+  "source_mesh_sha256": "0675b83c2819c46411e436b3cbe896cabc7312142a6b38a81a0cf1dda9a76108",
+  "blender_version": "4.5.14",
+  "metarig": "basic_quadruped",
+  "yaw_degrees": 25,
+  "normalization": "height 1.0, floor 0.0; not a physical scale declaration",
+  "template_fit": {
+    "x_scale": 0.8,
+    "front_y_scale": 1.2,
+    "rear_y_scale": 1.05,
+    "z_scale": 0.95
+  },
+  "target_triangles": 30000,
+  "status": "DRAFT_HEAD_NECK_FIT_REQUIRES_REVIEW",
+  "center_x": 0.144,
+  "neck_chain_points": [
+    [
+      0.035,
+      -0.35,
+      0.79
+    ],
+    [
+      0.055,
+      -0.4,
+      0.82
+    ],
+    [
+      0.08,
+      -0.45,
+      0.85
+    ],
+    [
+      0.2,
+      -0.58,
+      0.85
+    ]
+  ],
+  "fit_notes": "Four joint endpoints in normalized source coordinates, chosen from front/side/top mesh overlays in evidence 006. Not anatomical or motion acceptance."
+}
