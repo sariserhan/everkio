@@ -4,7 +4,7 @@
 
 Roadmap: **Everkio Pets → Everkio Spatial → Everkio People**.
 
-Implementation has started with M0 benchmark foundations and a Unity 6000.6.6f1 diagnostic project. This repository is **not yet a runnable AR application**. Unity compilation, iOS development build/signing and physical iPhone launch are verified. The diagnostic capture/export/analysis path is verified on a complete 600-second run; licensed animals, AR and product acceptance remain pending. See [current handoff and blockers](docs/m0-status.md) and the [master specification](everkio_master_spec_v2.md).
+Implementation has started with M0 benchmark foundations and a Unity 6000.6.6f1 diagnostic project. This repository is **not yet a runnable AR application**. Unity compilation, iOS development build/signing and physical iPhone launch are verified. The diagnostic capture/export/analysis path is verified on a complete 600-second run; accepted AI-generated animals, AR and product acceptance remain pending. See [current handoff and blockers](docs/m0-status.md) and the [master specification](everkio_master_spec_v2.md).
 
 ## Run the local checks
 
@@ -29,6 +29,7 @@ Exit codes: 0 = single-run numerical checks passed; 1 = incomplete or failing ev
 - `tools/presence_ratings.py`: frozen-cohort blinded rating checks with separate species/dimension thresholds; never grants G-P.
 - `tools/generate_animal.py`: pinned local CPU AI-to-3D evaluation with model/config checksums and immutable outputs; no accepted animal rig is implied.
 - `tools/prepare_animal_rig.py`: pinned Blender draft quadruped preparation with source/fit guards and orderly Rigify UI cleanup; tested on both generated animals, without claiming motion/realism acceptance.
+- `tools/author_animal_motion.py`: source-bound stationary/start/walk/stop draft authoring with measured surface holds and explicit floor failures; no natural-motion acceptance.
 - [AI animal generation](docs/ai-animal-generation.md): original references, reproducible local workflow, generated mesh evidence and actual quality defects.
 - [Mac quickstart](docs/mac-quickstart.md): exact commands to compile and export for your iPhone.
 - [Benchmark protocol](docs/benchmark-protocol.md): methods, limitations and interpretation.
