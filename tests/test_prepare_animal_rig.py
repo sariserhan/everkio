@@ -64,6 +64,16 @@ class RigFitTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     check_fit(self.mesh, dict(self.fit, neck_chain_points=invalid), self.output)
         self.assertFalse(self.output.exists())
+    def test_tail_chain_rejects_degenerate_or_out_of_bounds_fits(self):
+        points = [[.015, .51, .58], [.09, .59, .39], [.19, .64, .29], [.285, .66, .26]]
+        check_fit(self.mesh, dict(self.fit, tail_chain_points=points), self.output)
+        for invalid in (None, points[:3], [[0, 0, .5]] * 4,
+                        [[0, float('inf'), .5], *points[1:]],
+                        [[0, 0, 2], *points[1:]]):
+            with self.subTest(points=invalid):
+                with self.assertRaises(ValueError):
+                    check_fit(self.mesh, dict(self.fit, tail_chain_points=invalid), self.output)
+        self.assertFalse(self.output.exists())
 
 
 class RigUICleanupTests(unittest.TestCase):

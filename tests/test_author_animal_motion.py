@@ -3,7 +3,7 @@ import math
 from pathlib import Path
 import tempfile
 import unittest
-from tools.author_animal_motion import author, trajectory, idle_profile, turn_angle, CONTROLS
+from tools.author_animal_motion import author, trajectory, idle_profile, turn_angle, gesture_profile, CONTROLS
 
 
 class MotionTrajectoryTests(unittest.TestCase):
@@ -86,6 +86,21 @@ class MotionTrajectoryTests(unittest.TestCase):
                 previous = angle
             self.assertAlmostEqual(previous, -math.pi / 2)
             self.assertEqual(angles[0], 0)
+
+    def test_gestures_have_still_bookends_and_bounded_motion(self):
+        for clip in ('react', 'sniff'):
+            for seconds in (0, .5, 1, 5, 5.5, 6):
+                self.assertTrue(all(abs(v) < 1e-12 for v in gesture_profile(seconds, clip)))
+            values = [gesture_profile(i / 1000, clip) for i in range(6001)]
+            for yaw, pitch, lowering, tail in values:
+                self.assertTrue(all(math.isfinite(v) for v in (yaw, pitch, lowering, tail)))
+                self.assertLessEqual(abs(yaw), math.radians(18))
+                self.assertLessEqual(abs(pitch), math.radians(30))
+                self.assertTrue(0 <= lowering <= .07)
+                self.assertLessEqual(abs(tail), math.radians(8))
+            self.assertTrue(any(abs(v) > .01 for row in values for v in row))
+        with self.assertRaisesRegex(ValueError, 'Unsupported gesture'):
+            gesture_profile(2, 'eat')
 
     def test_invalid_clip_fails_before_reading_source(self):
         with self.assertRaisesRegex(ValueError, 'Unsupported draft clip'):

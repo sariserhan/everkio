@@ -23,10 +23,10 @@ public static class AssetCheckBuild
         Require(!File.Exists(scenePath),"Use a fresh isolated project; refuse scene overwrite");
         var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
         var player=new GameObject("Local Asset Check").AddComponent<AssetCheckPlayer>();
-        player.models=new GameObject[4]; player.motions=new AnimationClip[4]; player.coats=new Material[4]; player.candidateNames=new string[4];
+        player.models=new GameObject[AssetCheckPlayer.CandidateCount]; player.motions=new AnimationClip[AssetCheckPlayer.CandidateCount]; player.coats=new Material[AssetCheckPlayer.CandidateCount]; player.candidateNames=new string[AssetCheckPlayer.CandidateCount];
         Directory.CreateDirectory("Assets/CheckMaterials"); AssetDatabase.Refresh();
         int index=0;
-        foreach(var species in new[]{"cat","dog"}) foreach(var kind in new[]{"idle","walk"})
+        foreach(var species in new[]{"cat","dog"}) foreach(var kind in new[]{"idle","walk","turn","react","sniff"})
         {
             string path="Assets/Candidates/"+species+"-refit-"+kind+".fbx";
             var importer=AssetImporter.GetAtPath(path) as ModelImporter; Require(importer!=null,"Missing candidate FBX");
@@ -38,7 +38,7 @@ public static class AssetCheckBuild
             Require(clip!=null&&clip.legacy&&Mathf.Abs(clip.length-6)<.01f,"Expected six-second legacy clip");
             var texture=AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Candidates/"+species+".png"); Require(texture!=null&&texture.width==2048,"Expected coat texture");
             var shader=Shader.Find("Standard"); Require(shader!=null,"Standard shader missing");
-            var material=new Material(shader); material.mainTexture=texture; material.SetFloat("_Glossiness",.35f);
+            var material=new Material(shader); material.mainTexture=texture; material.SetFloat("_Glossiness",.05f);
             AssetDatabase.CreateAsset(material,"Assets/CheckMaterials/"+species+"-"+kind+".mat");
             player.models[index]=model; player.motions[index]=clip; player.coats[index]=material; player.candidateNames[index]=species+"-"+kind; index++;
         }

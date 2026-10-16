@@ -9,6 +9,7 @@ namespace Everkio.AssetChecks
     // Separate preflight app; never an animal/AR performance or presence study.
     public sealed class AssetCheckPlayer : MonoBehaviour
     {
+        public const int CandidateCount = 10;
         public GameObject[] models;
         public AnimationClip[] motions;
         public Material[] coats;
@@ -57,7 +58,7 @@ namespace Everkio.AssetChecks
                 if (report.interrupted) break;
             }
             report.entries=entries.ToArray();
-            report.completed=entries.Count==4 && !report.interrupted && string.IsNullOrEmpty(report.error) && entries.TrueForAll(e=>string.IsNullOrEmpty(e.error));
+            report.completed=candidateNames.Length==CandidateCount && entries.Count==CandidateCount && !report.interrupted && string.IsNullOrEmpty(report.error) && entries.TrueForAll(e=>string.IsNullOrEmpty(e.error));
             running=false;
             Screen.sleepTimeout=previousSleep;
             try

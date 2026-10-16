@@ -34,17 +34,19 @@ def check_fit(mesh, fit, output):
     if type(fit.get('target_triangles')) is not int or fit.get('target_triangles') != 30000:
         raise ValueError('Unsupported draft orientation or polygon budget')
 
-    if 'neck_chain_points' in fit:
-        points = fit['neck_chain_points']
+    for key, label in (('neck_chain_points', 'Neck'), ('tail_chain_points', 'Tail')):
+        if key not in fit:
+            continue
+        points = fit[key]
         if not isinstance(points, list) or len(points) != 4:
-            raise ValueError('Neck fit requires four normalized joint points')
+            raise ValueError(f'{label} fit requires four normalized joint points')
         for point in points:
             if not isinstance(point, list) or len(point) != 3 or any(type(v) not in (int, float) or not math.isfinite(v) for v in point):
-                raise ValueError('Invalid neck joint point')
+                raise ValueError(f'Invalid {label.lower()} joint point')
             if abs(point[0]) > 1 or abs(point[1]) > 2 or not 0 <= point[2] <= 1.25:
-                raise ValueError('Neck joint outside normalized draft bounds')
+                raise ValueError(f'{label} joint outside normalized draft bounds')
         if any(not .01 <= math.dist(a, b) <= .6 for a, b in zip(points, points[1:])):
-            raise ValueError('Degenerate or excessive neck segment')
+            raise ValueError(f'Degenerate or excessive {label.lower()} segment')
 
 
 def unregister_rig_ui(rig, bpy):
@@ -147,12 +149,15 @@ def prepare(mesh_path, fit_path, output):
                 point.z *= scales['z_scale']
                 transformed.append(point)
             fitted[name] = transformed
-        if 'neck_chain_points' in fit:
-            anchor = fitted['spine.008'][0]
-            for name, point in zip(('spine.008', 'spine.009', 'spine.010', 'spine.011'), fit['neck_chain_points']):
+        for key, names in (('neck_chain_points', ('spine.008', 'spine.009', 'spine.010', 'spine.011')),
+                           ('tail_chain_points', ('spine.003', 'spine.002', 'spine.001', 'spine'))):
+            if key not in fit:
+                continue
+            anchor = fitted[names[0]][0]
+            for name, point in zip(names, fit[key]):
                 target = Vector(point)
                 if not .01 <= (target - anchor).length <= .6:
-                    raise ValueError('Neck segment does not fit the chest anchor')
+                    raise ValueError('Joint segment does not fit its chain anchor')
                 fitted[name] = [anchor, target]
                 anchor = target
         for name, (head, tail) in fitted.items():

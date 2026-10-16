@@ -49,9 +49,22 @@ def idle_profile(seconds):
     return breath, yaw
 
 
+def gesture_profile(seconds, clip):
+    """Bounded head/neck/tail drafts; sniff does not imply jaw/food interaction."""
+    u = min(1., max(0., (seconds - 1) / 4))
+    envelope = math.sin(math.pi * u) ** 2
+    if clip == 'react':
+        return (math.radians(18) * math.sin(2 * math.pi * u) * envelope,
+                -math.radians(6) * envelope, 0., math.radians(8) * math.sin(4 * math.pi * u) * envelope)
+    if clip == 'sniff':
+        return (0., math.radians(30) * envelope, .07 * envelope,
+                math.radians(3) * math.sin(2 * math.pi * u) * envelope)
+    raise ValueError('Unsupported gesture')
+
+
 def author(source, source_sha256, species, output, clip='walk'):
     source, output = Path(source).resolve(), Path(output).absolute()
-    if clip not in ('walk', 'idle', 'turn'):
+    if clip not in ('walk', 'idle', 'turn', 'react', 'sniff'):
         raise ValueError('Unsupported draft clip')
     if species not in ('cat', 'dog') or digest(source) != source_sha256:
         raise ValueError('Species or source hash does not match the reviewed draft')
@@ -77,13 +90,20 @@ def author(source, source_sha256, species, output, clip='walk'):
         mesh, rig = matches[0], matches[0].parent
         for bone in rig.data.bones:
             bone.bbone_segments = 1
-        controls = ('root', *CONTROLS, *(['chest', 'neck', 'head'] if clip == 'idle' else []))
+        controls = ('root', *CONTROLS, *(['chest', 'neck', 'head'] if clip in ('idle', 'react', 'sniff') else []),
+                    *(['spine_master.003'] if clip in ('react', 'sniff') else []))
         if any(name not in rig.pose.bones for name in controls):
             raise ValueError('Missing reviewed rig controls')
         if rig.animation_data and (rig.animation_data.action or rig.animation_data.nla_tracks):
             raise ValueError('Source must be an unanimated painted draft')
         rest = {name: rig.pose.bones[name].matrix.copy() for name in controls}
         ids = {g.name: g.index for g in mesh.vertex_groups}
+        tail_points = []
+        if clip in ('react', 'sniff'):
+            tail_groups = {ids[name] for name in ('DEF-spine.003', 'DEF-spine.002', 'DEF-spine.001', 'DEF-spine')}
+            tail_points = [v.index for v in mesh.data.vertices if sum(g.weight for g in v.groups if g.group in tail_groups) > .5]
+            if len(tail_points) < 8:
+                raise ValueError('Tail controls have insufficient weighted surface vertices')
         points, correction = {}, {}
         for name, (_, group) in CONTROLS.items():
             vertices = [v for v in mesh.data.vertices if any(g.group == ids[group] and g.weight > .35 for g in v.groups)]
@@ -100,7 +120,7 @@ def author(source, source_sha256, species, output, clip='walk'):
         for contact_pass in range(2):
             rows, targets, root_positions, hold_positions = [], {}, [], {}
             hold_errors = []
-            first_positions, surface_extent = None, 0.
+            first_positions, surface_extent, tail_extent = None, 0., 0.
             for frame in range(1, LAST_FRAME + 1):
                 seconds = (frame - 1) / FPS
                 scene.frame_set(frame)
@@ -137,6 +157,22 @@ def author(source, source_sha256, species, output, clip='walk'):
                             bone.keyframe_insert(key, frame=frame)
                         rig.update_tag(refresh={'OBJECT'})
                         bpy.context.view_layer.update()
+                if clip in ('react', 'sniff'):
+                    yaw, pitch, lowering, tail = gesture_profile(seconds, clip)
+                    for name, factor in (('neck', .45), ('head', 1.), ('spine_master.003', 0.)):
+                        matrix = rest[name].copy()
+                        direction = matrix.to_3x3() @ Vector((0, 1, 0))
+                        axis = Vector((-direction.y, direction.x, 0)).normalized()
+                        rotation = Matrix.Rotation(tail if factor == 0 else yaw * factor, 4, 'Z')
+                        if factor:
+                            rotation = Matrix.Rotation(pitch * factor, 4, axis) @ rotation
+                        matrix = rotation @ matrix
+                        matrix.translation = rest[name].translation - Vector((0, 0, lowering * factor))
+                        bone = rig.pose.bones[name]; bone.matrix = matrix
+                        for key in ('location', 'rotation_quaternion'):
+                            bone.keyframe_insert(key, frame=frame)
+                        rig.update_tag(refresh={'OBJECT'})
+                        bpy.context.view_layer.update()
                 for name, (travel, height, planted, stance) in paths.items():
                     matrix = rest[name].copy()
                     if clip == 'turn':
@@ -156,7 +192,7 @@ def author(source, source_sha256, species, output, clip='walk'):
                 bpy.context.view_layer.update()
                 evaluated = mesh.evaluated_get(bpy.context.evaluated_depsgraph_get())
                 positions = [evaluated.matrix_world @ v.co for v in evaluated.data.vertices]
-                if clip in ('walk', 'turn') and (frame <= FPS or frame > LAST_FRAME - FPS):
+                if clip != 'idle' and (frame <= FPS or frame > LAST_FRAME - FPS):
                     hold = 'start' if frame <= FPS else 'end'
                     reference = hold_positions.setdefault(hold, [v.copy() for v in positions])
                     hold_errors.append(max((v - initial).length for v, initial in zip(positions, reference)))
@@ -165,6 +201,8 @@ def author(source, source_sha256, species, output, clip='walk'):
                 if first_positions is None:
                     first_positions = [v.copy() for v in positions]
                 surface_extent = max(surface_extent, max((v - initial).length for v, initial in zip(positions, first_positions)))
+                if tail_points:
+                    tail_extent = max(tail_extent, max((positions[i] - first_positions[i]).length for i in tail_points))
                 for name, (_, _, planted, stance) in paths.items():
                     sole = [positions[i] for i in points[name]]
                     center = sum(sole, Vector()) / len(sole)
@@ -190,8 +228,10 @@ def author(source, source_sha256, species, output, clip='walk'):
         if max(hold_errors, default=0) > 1e-6:
             raise ValueError('Deformed surface moved during a stationary hold')
         loop_error = max((v - initial).length for v, initial in zip(positions, first_positions))
-        if clip == 'idle' and (loop_error > 1e-5 or surface_extent < .001):
-            raise ValueError('Idle surface must move and return to its starting pose')
+        if clip in ('idle', 'react', 'sniff') and (loop_error > 1e-5 or surface_extent < .001):
+            raise ValueError('Looped surface must move and return to its starting pose')
+        if tail_points and tail_extent < .001:
+            raise ValueError('Weighted tail surface did not move')
         penetration = max(0, -min(r['mesh_min_z'] for r in rows))
         scene.frame_set(1)
         bpy.ops.wm.save_as_mainfile(filepath=str(output / 'motion-candidate.blend'))
@@ -199,15 +239,16 @@ def author(source, source_sha256, species, output, clip='walk'):
             writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
             writer.writeheader()
             writer.writerows(rows)
-        report.update(status='PARTIAL', controller_stance_check='PASS', stationary_holds_check='PASS' if clip in ('walk', 'turn') else 'NOT APPLICABLE',
+        report.update(status='PARTIAL', controller_stance_check='PASS', stationary_holds_check='PASS' if clip != 'idle' else 'NOT APPLICABLE',
                       motion_sha256=digest(output / 'motion-candidate.blend'),
                       body_travel_normalized=root_positions[0][1] - root_positions[-1][1],
                       turn_degrees=math.degrees(measured_turn) if clip == 'turn' else 0,
                       constant_floor_corrections=correction, contact_passes=contact_passes,
                       worst_stance_xy_drift=drift,
                       stationary_surface_max_error=max(hold_errors) if hold_errors else None,
-                      loop_surface_max_error=loop_error if clip == 'idle' else None,
+                      loop_surface_max_error=loop_error if clip in ('idle', 'react', 'sniff') else None,
                       surface_motion_extent=surface_extent,
+                      tail_proxy_vertices=len(tail_points), tail_surface_motion_extent=tail_extent if tail_points else None,
                       sampled_floor_check='PASS' if penetration <= 1e-5 else 'FAIL',
                       worst_floor_penetration=penetration)
         return report
@@ -226,7 +267,7 @@ def main():
     parser.add_argument('--source-sha256', required=True)
     parser.add_argument('--species', choices=('cat', 'dog'), required=True)
     parser.add_argument('--output', type=Path, required=True)
-    parser.add_argument('--clip', choices=('walk', 'idle', 'turn'), default='walk')
+    parser.add_argument('--clip', choices=('walk', 'idle', 'turn', 'react', 'sniff'), default='walk')
     args = parser.parse_args()
     try:
         author(args.source, args.source_sha256, args.species, args.output, args.clip)

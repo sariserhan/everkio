@@ -130,3 +130,16 @@ python3 tools/metal_trace.py artifacts/new-metal-surfaces.xml \
 ```
 
 The PID must come from this trace, rather than an older launch. Recording/export succeeded with Xcode 27.0 on the baseline phone. The inspector reads the observed Xcode 27 XML schema, follows typed references, selects process-attributed swaps on one display, rejects ambiguous/malformed ordering and preserves an export hash. Timestamps use the export's integer nanoseconds. It reports adjacent swap intervals, not the CPU-to-display column or inferred touch latency. It does not sort or merge traces, relabel Update CSVs or declare protocol acceptance. Exit 1 means the expected PARTIAL setup result; malformed evidence/IO or an existing report returns 2. Keep all trace files private: a system trace can contain other process/device metadata.
+
+## Input marker setup
+
+In the updated **Everkio Diagnostics** app, stop any data capture, scroll to **Start input marker setup**, tap the coloured field five times, and press **Stop and export marker setup**. Confirm the counter and blue/yellow state change. This is an input/UI/export smoke check; latency requires a separate validated recording of physical contact and the screen.
+
+```sh
+xcrun devicectl device copy from --device YOUR_DEVICE_UDID \
+  --domain-type appDataContainer --domain-identifier com.yourcompany.everkio.diagnostics \
+  --source Documents/EverkioDiagnostics/InputMarkers \
+  --destination /absolute/fresh/input-marker-copy
+```
+
+Preserve incomplete runs and keep files private. The exported receipt times and requested marker states are not first-visible times; do not convert them into acceptance `touches.csv`. See the [setup protocol and limits](benchmark-protocol.md#input-marker-setup-fixture--uncalibrated). The separate **Everkio Asset Check** app contains the generated-animal drafts and has no input-marker controls.

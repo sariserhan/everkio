@@ -9,6 +9,7 @@ namespace Everkio.Benchmarks
     public sealed class DiagnosticPanel : MonoBehaviour
     {
         private PresenceRecorder recorder;
+        private InputMarkerPanel inputMarker;
         private GUIStyle label;
         private GUIStyle button;
         private Vector2 scroll;
@@ -20,6 +21,8 @@ namespace Everkio.Benchmarks
             previousFrameRate = Application.targetFrameRate;
             Application.targetFrameRate = 60;
             recorder = GetComponent<PresenceRecorder>();
+            inputMarker = GetComponent<InputMarkerPanel>();
+            if (inputMarker == null) inputMarker = gameObject.AddComponent<InputMarkerPanel>();
             recorder.sceneContent = "instrumentation_only";
         }
 
@@ -27,6 +30,7 @@ namespace Everkio.Benchmarks
 
         private void OnGUI()
         {
+            if (inputMarker != null && inputMarker.IsRunning) return;
             if (label == null)
             {
                 label = new GUIStyle(GUI.skin.label) { fontSize = 24, wordWrap = true };
@@ -67,6 +71,10 @@ namespace Everkio.Benchmarks
                 StartCoroutine(SaveDiagnosticScreenshot());
             GUI.enabled = true;
             GUILayout.Label(screenshotStatus, label);
+            GUI.enabled = !recorder.IsRunning && !savingScreenshot;
+            if (GUILayout.Button("Start input marker setup", button, GUILayout.Height(70))) inputMarker.Begin();
+            GUI.enabled = true;
+            GUILayout.Label(inputMarker.Status, label);
             if (recorder.IsRunning) GUILayout.Label("Screenshots are available after the data capture stops, to avoid disturbing timing samples.", label);
             GUILayout.Label("30-second draft warm-up; 10-minute capture. Keep this app foregrounded. Update cadence is not display or touch latency.", label);
             if (!string.IsNullOrEmpty(recorder.LastExportPath)) GUILayout.Label("Saved: " + recorder.LastExportPath, label);

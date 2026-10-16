@@ -61,6 +61,7 @@ namespace Everkio.Editor
             if (ThermalTelemetry.Name((ThermalTelemetry.State)999) != "unknown" ||
                 ThermalTelemetry.Read() != ThermalTelemetry.State.Unknown)
                 throw new InvalidOperationException("Unavailable/editor thermal state must remain unknown.");
+            InputMarkerPanel.ValidateContract();
             var pngProbe = new Texture2D(1, 1, TextureFormat.RGB24, false);
             try
             {
