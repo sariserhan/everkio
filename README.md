@@ -20,6 +20,7 @@ Exit codes: 0 = single-run numerical checks passed; 1 = incomplete or failing ev
 ## Contents
 
 - `tools/benchmark.py`: validates local captures, computes p95 intervals, one-minute FPS, touch upper bounds, memory/battery summaries and evidence hashes.
+- `tools/benchmark_series.py`: inspects one animal/device across at least three sessions, pools touch observations and preserves individual failures; never grants G-P.
 - `benchmarks/templates/`: capture manifest and CSV contracts, with unknown values left unknown.
 - `unity/Everkio/`: pinned diagnostic project with an editor-generated instrumentation scene.
 - `unity/Packages/com.everkio.benchmarks/`: local recorder and diagnostic controls; compiled and exercised on iPhone with diagnostic evidence only.

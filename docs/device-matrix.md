@@ -7,7 +7,7 @@ Updated 2026-10-15 from live Mac/device commands and operator confirmation. This
 | Baseline candidate | Physical iPhone 14 Pro (iPhone15,2); iOS 26.6.2 (23G90) | Live `devicectl` inventory; operator confirmed diagnostic panel | Wired/paired, Developer Mode enabled; signed diagnostic installed/launched; animal/AR performance NOT RUN |
 | iOS build host | Apple silicon (arm64), macOS 26.6.2 (25G83), Xcode 27.0 (27A266a), iOS SDK 27.0 | Live host commands and build logs | Unity 6000.6.6f1 (d20c9ac777da); iOS support installed through Hub; diagnostic compilation/export/Xcode build PASS |
 | Signing | Local Apple development identity; owner-approved team and diagnostic bundle ID | Successful Xcode signing/install | PASS for local development; credentials remain local |
-| Source/analysis host | Current Mac workspace; Python 3.14.6 and Git | 29 passing Python tests and real complete/interrupted-capture analysis | Local tooling works; initial Linux results retained as historical evidence |
+| Source/analysis host | Current Mac workspace; Python 3.14.6 and Git | 40 passing Python tests (synthetic fixtures) and real complete/interrupted-capture analysis | Local tooling works; initial Linux results retained as historical evidence |
 | Separate flagship comparison | Not nominated | None | NOT RUN; no 60 FPS claim |
 
 ## Optional inventory refresh

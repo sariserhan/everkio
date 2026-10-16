@@ -14,6 +14,9 @@ class EvidenceError(ValueError):
     pass
 
 
+TOUCH_COUNT_MISSING = '100 touch samples in this run (use benchmark_series.py for cross-run aggregation)'
+
+
 def number(value, label, minimum=0):
     if isinstance(value, bool):
         raise EvidenceError(f'{label}: boolean is not a measurement')
@@ -145,7 +148,7 @@ def inspect_run(folder):
                 raise EvidenceError('touch timestamps must be ordered and within capture')
             latencies.append(end - start + error)
     if len(latencies) < 100:
-        missing.append('100 touch samples (cross-run aggregation not yet implemented)')
+        missing.append(TOUCH_COUNT_MISSING)
     touch_p95 = percentile(latencies)
     if touch_p95 is not None and touch_p95 >= 100:
         failures.append('touch upper-bound p95 is not below 100 ms')

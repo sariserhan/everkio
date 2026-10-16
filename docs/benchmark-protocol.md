@@ -14,7 +14,7 @@ The inspector calculates nearest-rank p95 from adjacent timestamps. One-minute F
 
 Numerical PASS requires physical-device metadata, validated presentation timing, completion, ≥100 touch events in this bundle, thermal coverage, memory and battery endpoints, zero reported chargeable inference/crashes/interruptions/warnings, and offline/network review. Missing inputs yield PARTIAL; measured violations yield FAIL; malformed evidence is rejected. These are evidence declarations, not authenticity verification. The inspector cannot independently validate an operator's claims or a referenced video. It **always leaves G-P NOT RUN** for human/cohort review.
 
-The spec permits 100 touches aggregated across three sessions; this first inspector only supports a single bundle and conservatively returns PARTIAL for fewer samples. Cross-run aggregation, blinded rating aggregation and full gate automation are not implemented. Do not fabricate events to make the inspector pass.
+The spec permits 100 touches aggregated across three sessions. The single-run inspector conservatively returns PARTIAL for fewer samples; `tools/benchmark_series.py` now supports a numerical series for one animal/device. Blinded rating aggregation and full gate automation remain unimplemented. Do not fabricate events to make either inspector pass.
 
 ## Unity recorder limitations
 `PresenceRecorder` collects **Update cadence**, not display presentation. The package deliberately declares `unity_update_proxy` and does not create touch measurements. The original device captures wrote thermal state as `unknown`; the subsequent iOS bridge samples `NSProcessInfo.thermalState` for every recorded Update. Editor, simulator and unsupported native values remain `unknown`. The optional manifest field `thermal_method` records the provider (`ios_nsprocessinfo_thermalstate_per_update` or `unavailable`). Thermal state is an OS category, not a temperature measurement or an independent OS-warning/crash declaration. A recorder export cannot pass the inspector as acceptance evidence. Native nominal thermal sampling was verified in a short physical-device smoke capture (see status log); validate transitions and profile instrumentation overhead and validate timing against device presentation/high-speed video before scored animal runs.
@@ -54,3 +54,17 @@ Room/lighting identifiers must accompany actual animal runs after the layouts ar
 The screenshot button exports the current Unity-rendered diagnostic app view to an immutable UUID-named PNG after end-of-frame rendering. It is available only outside active benchmark runs. The two added dependencies are built-in Unity ScreenCapture and ImageConversion modules, pinned to `1.0.0`; there is no external capture service or Photos permission. Editor validation checks that PNG encoding produces the expected signature, while physical screenshot/export/visual verification is recorded separately in [M0 status](m0-status.md).
 
 [Unity's screenshot API](https://docs.unity3d.com/6000.6/Documentation/ScriptReference/ScreenCapture.CaptureScreenshotAsTexture.html) requires capture after rendering; an end-of-frame coroutine supplies that point. This is a rendered app image, not independent physical-presentation or touch-latency proof. An empty diagnostic screenshot cannot meet animal/AR motion or realism requirements. Video recording and future product capture/sharing remain unimplemented.
+
+
+## Numerical three-session inspection
+
+```sh
+mkdir -p benchmarks/reports
+python3 tools/benchmark_series.py /path/to/run-1 /path/to/run-2 /path/to/run-3   --output benchmarks/reports/new-series.json
+```
+
+The output directory must exist and the report must be new. Use separate series for cat and dog, and for each device/OS/build/asset/protocol/warm-up/timing/thermal method. Mixing these configurations is rejected rather than pooled. Room and lighting may vary; at least two named configurations and two named lighting conditions across at least three sessions are required. A publisher/asset change needs a new series.
+
+The series inspector retains every supplied single-run report, failure, missing field and evidence hash. It replaces only the single-run 100-touch minimum with a pooled minimum of 100 validated observations. Each session must still contain touch observations and satisfy its own latency bound; a pooled percentile cannot hide a failing individual session. Existing conservative offline/network declarations are still required for each supplied run. It rejects repeated directories, run IDs and identical frame files, and detects input changes during inspection. These checks do not authenticate operator declarations or prove the source files are genuine.
+
+All supplied failed/incomplete runs remain in the result; there is no best-three selection or splicing of interrupted sessions. Missing evidence remains PARTIAL, observed failures remain FAIL, and mixed/malformed/duplicate evidence is rejected with exit 2. A PASS is only a numerical-series result: **G-P always remains NOT RUN** until separate cat/dog device evidence, independent motion/AR review and blinded evaluation pass. Synthetic test fixtures are not experimental evidence.

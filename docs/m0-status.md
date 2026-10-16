@@ -195,3 +195,27 @@ Owner confirmed **Screenshot saved** on the updated phone app. Copy attempt 1 fa
 PNG SHA-256: `45afe349f61e672e7afd925e98ea7f38071d3d86fef8c6116820ceb5191bb73a`. Source/signed executable and framework hashes are in `artifacts/build-evidence-006.json`. Phone update preserved previous raw data. The missing visual-output report is resolved for a diagnostic screenshot; video recording remains unimplemented. This demonstrates a Unity-rendered app screenshot/export path only, with no independent physical-presentation timing evidence or animal-presence acceptance.
 
 Private evidence archive `artifacts/m0-diagnostic-screenshot-006.zip`; SHA-256 `d5dfc67c99ea334778d8e648814c9af2f77b69be5f1475fcf004c27951c7ef0d`; ZIP integrity verified. Includes PNG, provenance, final export/build/test logs and failed/successful copy logs. Evidence stays local/ignored; no publication or external upload.
+
+
+## Autonomous continuation from `3c03af8`
+
+Scope remains authorized M0–M3 only. Owner asked to continue until blocked, then explicitly selected **Keep spending unapproved** after reviewing [the concrete asset procurement proposal](asset-procurement-decision.md). No purchase, paid service or research budget is authorized. No licensed cat/dog source package is present in the repo or inspected local Unity Asset Store cache. Paid procurement and unverified/free reuploads cannot bypass this blocker.
+
+### Asset findings and decision
+
+- Official free Grey Cat demo found (Rip Vertices Studio, package 412724, version 1.2). Store declares Standard EULA and a standalone evaluation demo; published clip-count labels disagree, and the listed motions do not establish lie/eat/contact/turn coverage. Mobile variant omits fur; HD fur requires actual phone evaluation. No asset obtained, accepted or imported.
+- Cheap same-publisher German Shepherd lists only five clips; it is not a documented motion-complete route. Domestic Animal Pack is the best documented single-pack evaluation option among reviewed candidates, but its proposed USD 200 all-in ceiling was **not approved**. Store claims cannot pass M1/realism/device gates.
+- Evil_Katz “An Animated Cat” rejected as a legitimate source without original-rights clearance: uploader disclaims authorship and identifies a commercial-game source. Free cartoon/stylized assets and wolf substitution remain excluded.
+- Public first-party HTML/description evidence is preserved in ignored `artifacts/asset-research/`; this is preliminary provenance research, not legal clearance. No publisher messages were sent and no new account was created.
+
+### Session-series benchmark support
+
+Added `tools/benchmark_series.py` to inspect one animal/device/configuration across at least three sessions and pool validated touch observations. It retains individual numerical failures/missing evidence, requires room/lighting coverage and consistent build/asset/protocol/methods, rejects duplicate/reused evidence, and refuses to overwrite output. It does not splice interrupted captures, auto-select favorable sessions or grant G-P. Single-run reports keep their conservative per-run 100-touch rule; only the series inspector can satisfy that count across sessions, with observations still required in each session.
+
+Verification: **40 Python tests PASS** in `artifacts/python-tests-series-final.log` (29 existing + 11 new synthetic series tests). Cases cover pooled observations, invalid configuration/duplicates, empty session touches, hidden per-session latency failure, interrupted/diagnostic evidence, missing coverage, changed input and overwrite protection. A replay of actual prior complete diagnostic run 003 produced **PARTIAL / G-P NOT RUN** in `artifacts/actual-diagnostic-series-003.json`; diagnostic evidence still cannot pass as an animal session series. No real animal series is available.
+
+### Current phone test and blockers
+
+Owner started one full-duration diagnostic on the current native-thermal/screenshot build and agreed to keep it foregrounded. Result is pending; do not infer automatic completion or sustained native-thermal behavior from the earlier pre-thermal run. No app rebuild or reinstall was performed during this capture.
+
+Remaining independent evidence requires owner/hardware/art actions: legitimate cat/dog packages and procurement/rights resolution; actual marked room layouts and ambient/battery-health context; calibrated presentation/input timing with an independent reference; motion reviewers and blinded evaluators at M3. Additional flagship hardware remains untested. **M0 PARTIAL; M1–M3 and all product gates NOT RUN.** No M4–M14 implementation, paid research, reconstruction job or cloud provisioning is performed.
