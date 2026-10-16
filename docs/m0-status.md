@@ -130,3 +130,39 @@ Private evidence archive: `artifacts/m0-device-evidence-interrupted-001.zip`, SH
 Private complete evidence archive: `artifacts/m0-device-evidence-003.zip`, SHA-256 `d1cdeb43f1b7fe5bbfe0aca913fab673109091fea39e815bad7ce5ef677127c9`. Contains all three unchanged raw runs, three analysis reports, device/build provenance and log snapshots. The earlier interrupted-only archive is retained. Archives stay ignored/local, contain device identifiers and have not been published.
 
 **Next blocker:** select legitimate cat/dog assets, approve an all-in procurement ceiling and verify rights/motion/mobile suitability using [the asset plan](asset-plan.md). Also freeze two room configurations, two lighting conditions, warm-up/ambient/battery context and validated presentation/input/thermal methods. Serhan Sari owns engineering, art/licensing and testing. No animal/AR implementation, paid service or reconstruction work begins while these prerequisites remain unresolved. **M0 PARTIAL; M1–M3 and G-P/G-I/G-F/G-M NOT RUN.**
+
+
+## M0 continuation — native thermal telemetry and capture progress
+
+Baseline source: `0d91b0a`. Still **M0 PARTIAL**, with **M1–M3 and all product gates NOT RUN**. No animal/AR implementation or expenditure authorized by the continuation.
+
+Owner confirmed “yes, livingroom” to the open-floor/furnished and daylight/artificial-evening proposal. Record R1/R2 as living-room configurations and L1/L2 as the selected lighting conditions in [the benchmark protocol](benchmark-protocol.md). Detailed layouts, ambient/battery context and measurement/protocol freeze still need evidence.
+
+Changes:
+- Native Objective-C++ iOS bridge explicitly maps NSProcessInfo thermal states into nominal/fair/serious/critical; simulator/unrecognized values remain unknown. Recorder samples the native category per Update, exports it in `frames.csv`, and declares optional `thermal_method` provenance. No temperature, OS-warning or crash counts are invented.
+- Diagnostic panel shows warm-up/capture countdown and live thermal category, scrolls within the screen safe area, and reminds the operator that Stop creates an incomplete run. Capture start logs include run ID/species/durations. Completion and interruption rules remain unchanged.
+- Editor validation checks thermal CSV names, invalid-state fallback and unavailable/editor sampling. No new runtime dependencies, cloud code, camera permission or animal content.
+
+| Check | Actual result | Private local artifact |
+|---|---|---|
+| Python tooling | PASS — 29 tests, including existing unknown/serious/critical handling | `artifacts/python-tests-thermal-004.log` |
+| Unity validation and thermal contract checks | PASS | `artifacts/validate-20261016T003333Z-5d88be69.log` / `.json` |
+| Updated Unity iOS export | PASS; native source included in generated target | `artifacts/export-ios-20261016T003348Z-93b08842.log` / `.json`, `artifacts/ios-diagnostics-004/` |
+| Xcode Debug/signing | PASS; native `.mm` compiled and linked, `BUILD SUCCEEDED` | `artifacts/xcode-build-004.log` |
+| Updated iPhone install/launch | PASS after unlock; initial locked-device launch failure preserved. Operator confirms countdown works | `artifacts/device-install-004.json`, `artifacts/device-console-004.log`, `artifacts/device-console-004-retry.log` |
+| New native thermal CSV export | PASS for short smoke path — 777 nominal samples saved/copied/analyzed; run intentionally incomplete | `artifacts/device-captures-004/20261016T003529-9dcd07dcd9824e0fb213a281fec14ae9/`, `artifacts/diagnostic-analysis-004.json` |
+| New-build full-duration run / thermal transitions / instrumentation overhead | NOT RUN | Previous complete diagnostic belongs to the prior build |
+
+Previous raw captures/reports/archives remain unchanged and private. This update does not promote earlier unknown thermal samples into evidence. Presentation and input-to-visible timing remain unvalidated. Procurement/rights, documented layouts and calibrated protocol remain the blockers to further animal/AR work. No purchases, paid services, cloud resources, reconstruction jobs or M4–M14 work performed.
+
+
+### Native thermal smoke capture 004 — intentionally incomplete
+
+- Run `20261016T003529-9dcd07dcd9824e0fb213a281fec14ae9`, cat-labelled instrumentation, new build GUID `445642daef0e47eab20d789b6ec26ea8`, same physical iPhone/OS. Manifest declares `thermal_method=ios_nsprocessinfo_thermalstate_per_update`.
+- 777 rows over **12.975543 seconds** after warm-up; **777 nominal thermal samples**, zero unknown samples. Native bridge → managed sample → CSV → device copy → inspector is verified for nominal state. State transitions and simulator fallback are not device-tested; severe states were not induced. Editor contract/fallback checks passed during export.
+- Operator pressed Stop as requested: `completed=false`, `interruptions=1`, `stop_reason=operator_stop`. Inspector correctly returned **FAIL**, exit 1, for interruption/incomplete evidence; `thermal-state coverage` is no longer missing. **G-P NOT RUN**. Update p95 17.105541 ms, worst 48.198667 ms, peak Unity allocated memory 70.106688 MiB. Short empty-scene measurements do not establish sustained performance or instrumentation overhead.
+- Raw files copied unchanged under `artifacts/device-captures-004/<run-id>/`; report `artifacts/diagnostic-analysis-004.json`; copy provenance `artifacts/device-capture-copy-004.json`. Earlier run folders were retained across development-app update.
+- Raw hashes: manifest `2c3fb1316de783e3ea5dc75243241b22904f33b1cbdb5578cbf2e7727a7d063e`; CSV `eaa21a3baa44654f35436c1edfdbe0f9512b1fd21eeb496adad62beb94133fe1`.
+- First launch failed with locked-device denial; retry after unlock succeeded. Direct `idevicescreenshot` could not find the paired device through its transport, so no phone screenshot was obtained. Operator confirmed “countdown is working” but reported missing “display or capture”; clarification is pending on whether that means camera/animal view, media capture or locating diagnostic data. Do not mark this UI report resolved from a valid CSV alone.
+
+Private native-thermal smoke evidence archive: `artifacts/m0-native-thermal-smoke-004.zip`; SHA-256 `3007ab50faec7d37a713af559a56319a62430562d8852bcfe6488a0abac11f04`. Integrity checked. Source/signed binary hashes are in `artifacts/build-evidence-004.json`. No new-build full-duration, thermal-transition, overhead or visual screenshot proof is claimed.

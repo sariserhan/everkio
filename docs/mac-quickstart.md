@@ -23,7 +23,7 @@ Wait for installation to finish before exporting. If a failed batch leaves a pro
 
 `prepare` creates `Assets/Scenes/Diagnostics.unity` only when absent and preserves the scene on subsequent runs. It contains a camera and a local diagnostic panel, not an animal or AR scene. Unity generates remaining project defaults and package lock on first import; review and commit them after validation. AR Foundation, ARKit and render-pipeline choices are deliberately not yet claimed as tested or pinned.
 
-To inspect interactively, add `unity/Everkio` to Hub, open the scene and press Play. The panel can start cat-labelled or dog-labelled instrumentation captures. It explicitly states that no animal is loaded. Warm-up is 30 seconds, capture is 10 minutes, and the requested diagnostic frame rate is 60. A target frame rate is not a measured result. During capture automatic sleep is suppressed and restored afterward; leaving the app stops capture as incomplete.
+To inspect interactively, add `unity/Everkio` to Hub, open the scene and press Play. The panel can start cat-labelled or dog-labelled instrumentation captures. It explicitly states that no animal is loaded. Warm-up is 30 seconds, capture is 10 minutes, and the requested diagnostic frame rate is 60. A target frame rate is not a measured result. During capture automatic sleep is suppressed and restored afterward; leaving the app stops capture as incomplete. The updated panel shows warm-up/capture time remaining and current thermal state; wait for “Capture complete” without pressing Stop. The controls scroll within the screen safe area.
 
 ## Export the Xcode project
 Choose a bundle identifier you control. Replace the example below with your identifier and use a new output directory for each export:

@@ -20,6 +20,9 @@ namespace Everkio.Benchmarks
         public string sceneContent = "instrumentation_only";
         public bool IsRunning => running;
         public int SampleCount => samples.Count;
+        public double ElapsedSeconds => samples.Count == 0 ? 0 : samples[samples.Count - 1].elapsed / 1000;
+        public double WarmupRemainingSeconds => running && samples.Count == 0 ? Math.Max(0, startAt - Time.realtimeSinceStartupAsDouble) : 0;
+        public string ThermalState => ThermalTelemetry.Name(ThermalTelemetry.Read());
         public string Status { get; private set; } = "Ready";
         public string LastExportPath { get; private set; } = "";
         private string capturedSpecies;
@@ -39,6 +42,7 @@ namespace Everkio.Benchmarks
             public double elapsed;
             public long memory;
             public float battery;
+            public ThermalTelemetry.State thermal;
         }
 
         [Serializable]
@@ -49,6 +53,7 @@ namespace Everkio.Benchmarks
             public string protocol_revision = "everkio-presence-v2.1";
             public string evidence_kind, warmup_policy;
             public string timing_method = "unity_update_proxy";
+            public string thermal_method = ThermalTelemetry.Method;
             public bool completed;
             public int interruptions;
             public string stop_reason;
@@ -73,6 +78,7 @@ namespace Everkio.Benchmarks
             previousSleepTimeout = Screen.sleepTimeout;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             running = true;
+            Debug.Log("Everkio diagnostic capture started: " + runId + "; " + capturedSpecies + "; warmup=" + warmupSeconds + "; duration=" + captureSeconds);
         }
 
         private void Update()
@@ -86,7 +92,8 @@ namespace Everkio.Benchmarks
             samples.Add(new Sample {
                 elapsed = (now - origin) * 1000,
                 memory = Profiler.GetTotalAllocatedMemoryLong(),
-                battery = SystemInfo.batteryLevel
+                battery = SystemInfo.batteryLevel,
+                thermal = ThermalTelemetry.Read()
             });
             if (now - origin >= captureSeconds) Finish(true, "duration_reached");
         }
@@ -118,7 +125,7 @@ namespace Everkio.Benchmarks
                         Sample s = samples[i];
                         string battery = s.battery < 0 ? "" : s.battery.ToString("R", Invariant);
                         file.WriteLine(i.ToString(Invariant) + "," + s.elapsed.ToString("R", Invariant) + "," +
-                            (s.memory / 1048576.0).ToString("R", Invariant) + "," + battery + ",unknown");
+                            (s.memory / 1048576.0).ToString("R", Invariant) + "," + battery + "," + ThermalTelemetry.Name(s.thermal));
                     }
                 }
                 var manifest = new Manifest {

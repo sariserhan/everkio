@@ -17,10 +17,33 @@ Numerical PASS requires physical-device metadata, validated presentation timing,
 The spec permits 100 touches aggregated across three sessions; this first inspector only supports a single bundle and conservatively returns PARTIAL for fewer samples. Cross-run aggregation, blinded rating aggregation and full gate automation are not implemented. Do not fabricate events to make the inspector pass.
 
 ## Unity recorder limitations
-`PresenceRecorder` collects **Update cadence**, not display presentation. The package deliberately declares `unity_update_proxy`, writes thermal state as `unknown`, and does not create touch measurements. A recorder export cannot pass the inspector as acceptance evidence. Complete iOS native thermal capture and validate timing against device presentation/high-speed video during later authorized work.
+`PresenceRecorder` collects **Update cadence**, not display presentation. The package deliberately declares `unity_update_proxy` and does not create touch measurements. The original device captures wrote thermal state as `unknown`; the subsequent iOS bridge samples `NSProcessInfo.thermalState` for every recorded Update. Editor, simulator and unsupported native values remain `unknown`. The optional manifest field `thermal_method` records the provider (`ios_nsprocessinfo_thermalstate_per_update` or `unavailable`). Thermal state is an OS category, not a temperature measurement or an independent OS-warning/crash declaration. A recorder export cannot pass the inspector as acceptance evidence. Native nominal thermal sampling was verified in a short physical-device smoke capture (see status log); validate transitions and profile instrumentation overhead and validate timing against device presentation/high-speed video before scored animal runs.
 
 The recorder uses [Unity's monotonic realtime API](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Time-realtimeSinceStartupAsDouble.html), [battery level](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/SystemInfo-batteryLevel.html), and [Unity allocated memory](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Profiling.Profiler.GetTotalAllocatedMemoryLong.html). Allocated Unity memory is not total process resident memory; battery may be unavailable. Sources reviewed 2026-10-15. C# compilation, iOS launch and completed and interrupted real-device capture/export/analysis were verified on that date; see [actual run results](m0-status.md). This does not validate presentation timing, touch latency or thermal sampling.
 
 The initial warm-up default is 30 seconds and is marked draft, not a frozen study decision. Captures are limited to 600–1800 seconds and 500,000 samples, stored in memory then written after capture to avoid per-frame disk IO. Instrumentation overhead and list memory must be profiled before scored runs. Pausing, focus loss, disabling or manual stopping records an incomplete capture. Abrupt OS termination can lose the in-memory capture; absent/incomplete evidence never counts as a pass. Add crash-resilient recording only after measuring its overhead.
 
 No recorder code requests camera/microphone permissions, uploads data, calls inference, or starts automatically. A successful offline trace and explicit operator review are still required; absence of network code in this component does not prove the whole future app is offline.
+
+
+## iOS thermal bridge and capture progress
+
+The local package includes an Objective-C++ iOS plug-in and a C# bridge. State names map explicitly to the existing CSV contract; unknown and future values do not become nominal. The editor validation command checks known state names, an invalid value and the unsupported/editor fallback. Python's thermal tests still reject serious/critical samples and mark unknown coverage incomplete.
+
+Implementation references: [Apple thermal state](https://developer.apple.com/documentation/foundation/processinfo/thermalstate-swift.enum) and [Unity native plug-in integration](https://docs.unity.com/en-us/engine/6000.3/manual/platform-specific/iphone/ios-developing/plugins-for-ios/ios-native-plugin-use/automated-integration). Official sources checked October 15, 2026; exact Unity 6000.6 behavior is established by export/build/device checks in the [status log](m0-status.md). Context7 MCP was unavailable in this session.
+
+The panel shows separate warm-up and capture countdowns, sample count and current thermal state, inside a scrollable safe area. `Capture complete` remains the only completion indication; Stop, focus loss and backgrounding still preserve an incomplete run. Start logs include the run ID, species label and configured durations so monitoring need not infer start from a later export. Countdown rendering and native queries add instrumentation work; their overhead is not yet calibrated against an independent presentation clock.
+
+
+## Selected study conditions — owner confirmation October 15, 2026
+
+Serhan Sari confirmed the living room for the proposed open-floor/furnished configurations and daylight/artificial-evening lighting. These are two configurations of one room, not two independently tested rooms. This selects conditions; it does not claim they have been prepared or evaluated with animals.
+
+| ID | Condition | Record before a scored run |
+|---|---|---|
+| R1 | Living room, open floor area | Mark placement, route, camera orbit and floor scale reference; preserve a private setup photo/diagram |
+| R2 | Living room, furnished area | Mark furniture/occlusion boundaries and tracking-interruption route; preserve a private setup photo/diagram |
+| L1 | Daylight | Date/time, window/blind positions, ambient conditions and starting device thermal state |
+| L2 | Artificial evening light | Lights used and positions, ambient conditions and starting device thermal state |
+
+Room/lighting identifiers must accompany actual animal runs after the layouts are documented. Warm-up remains the existing 30-second draft pending animal load/measurement calibration and protocol freeze. Battery health/start charge, ambient context, presentation/touch validation method and continuous native thermal validation still need recording before scored runs. Wired diagnostic battery increases do not qualify as battery-drain measurements. These conditions do not remove the licensed-asset or procurement blockers.

@@ -30,3 +30,8 @@ The [Unity EULA FAQ](https://assetstore.unity.com/browse/eula-faq) describes com
 4. Freeze M0 owners, physical-device/room/lighting matrix, warm-up and measurement protocol, then record the M0 gate decision before M1/M2 work. Full M1 acceptance still needs actual assets and motion evidence; full G-P needs M3 device runs and blinded evaluation.
 
 Research funding and spending controls remain unset. This asset shortlist starts no reconstruction research, paid service, cloud resource or metered job.
+
+
+## Zero-cost asset investigation — October 15 continuation
+
+No suitable zero-cost pair is verified. Search-index leads included [Animated cat / baby_saja](https://sketchfab.com/3d-models/animated-cat-dfda55ca3d494fcabf96d020b1256447), [Realistic cat / Micael Martins](https://sketchfab.com/3d-models/realistic-cat-pets-for-your-project-ec407d89f7304194bc04f2b4710eab8c) and [Realistic Dog / ItsKrish7](https://sketchfab.com/3d-models/realistic-dog-9cb9caca8bb14a5e999e866afd19919d). Direct model-page retrieval returned HTTP 403; current source provenance, exact download terms, rig/animation coverage, moving realism and mobile suitability were not verified. No files downloaded or imported, no account created and no candidate selected. A search label saying free/realistic is insufficient. The original licensed-asset/procurement blocker remains; do not use third-party reuploads to bypass it.

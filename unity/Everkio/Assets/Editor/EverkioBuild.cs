@@ -54,6 +54,13 @@ namespace Everkio.Editor
             CheckVersion();
             if (AssetDatabase.LoadAssetAtPath<SceneAsset>(ScenePath) == null)
                 throw new InvalidOperationException("Diagnostic scene missing. Run prepare first.");
+            string[] thermalNames = { "unknown", "nominal", "fair", "serious", "critical" };
+            for (int value = -1; value <= 3; value++)
+                if (ThermalTelemetry.Name((ThermalTelemetry.State)value) != thermalNames[value + 1])
+                    throw new InvalidOperationException("Thermal CSV state contract failed.");
+            if (ThermalTelemetry.Name((ThermalTelemetry.State)999) != "unknown" ||
+                ThermalTelemetry.Read() != ThermalTelemetry.State.Unknown)
+                throw new InvalidOperationException("Unavailable/editor thermal state must remain unknown.");
             // Reaching this method establishes that editor scripts compiled.
             Debug.Log("EVERKIO_EDITOR_VALIDATION_OK " + Application.unityVersion);
         }
