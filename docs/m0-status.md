@@ -61,7 +61,7 @@ Source baseline: `533143a`; local `main` and fetched `origin/main` agree at that
 | Xcode build, development signing | PASS — exit 0, `BUILD SUCCEEDED` | `xcode-build-002.log` |
 | Physical-device install/launch | PASS — app installed, process launched, Metal/scene initialized | `device-install-002.json`, `device-processes-during-capture.json`, `device-console-002.log` |
 | App-container copy preflight | PASS — copied empty Documents directory; this does not validate a capture | `device-copy-preflight-003.json` / `.log` |
-| Device capture → export → analysis | PARTIAL — two interrupted physical-device runs saved/copied/analyzed; full-duration completion unverified | `device-capture-copy-001.json`, `diagnostic-analysis-001.json` |
+| Diagnostic capture → export → analysis | PASS for pipeline execution — one automatic 600-second run and two interrupted runs saved/copied/analyzed; presence inspection PARTIAL/FAIL as expected | `device-capture-copy-001/002/003.json`, `diagnostic-analysis-001/002/003.json` |
 
 The 20261016 UTC log filenames are still October 15 in New York. The Python log contains an intentional mocked runner failure within a passing test; it is not a live Unity failure. Actual first-export failure is preserved separately.
 
@@ -110,6 +110,23 @@ Operator confirmed another capture was running and intended to leave it foregrou
 - Inspector output `artifacts/diagnostic-analysis-002.json`: **FAIL** (`interruptions`, plus missing completion/duration and other evidence); expected CLI exit **1**, not malformed-input exit 2. G-P remains **NOT RUN**. Copy log/result: `device-capture-copy-002.log` / `.json`.
 - Raw SHA-256: manifest `5d78059f82967d9f20299ddeaf7202e24528a6bd64bb0956038c6146963935be`; frames `bfdc9f4e77b7cdc231d6e3a0e34ad74a0f3aa5b51d9fe9932f406bafd02c39e8`.
 
-The interrupted device capture/export/analysis pipeline is verified twice. **The automatic full-duration completion path is still NOT RUN to completion**; next physical action is a fresh run kept foregrounded through “Capture complete.” Do not combine interrupted runs or shorten the acceptance duration. The app's interruption behavior worked as designed and has not been relaxed to produce a favorable result.
+The interrupted device capture/export/analysis pipeline is verified twice. **At this point, the automatic full-duration completion path was still unverified (resolved by run 003 below)**; next physical action is a fresh run kept foregrounded through “Capture complete.” Do not combine interrupted runs or shorten the acceptance duration. The app's interruption behavior worked as designed and has not been relaxed to produce a favorable result.
 
 Private evidence archive: `artifacts/m0-device-evidence-interrupted-001.zip`, SHA-256 `964e862305958732076f3533f617254d123b493a7355256c71eb784f7e694526`. Includes both unchanged interrupted bundles, their analysis reports, device/build provenance and a snapshot of logs. Archive is ignored and contains device identifiers; no external sharing performed. It is a local preservation copy, not a backup on a separate host.
+
+
+### Actual diagnostic capture 003 — automatic full-duration completion
+
+- Run ID: `20261016T001612-04d2ba4c4d1740519cda5f32b33cea7f`; **cat-labelled instrumentation only**, started 20:16:12 New York, October 15, with 30-second draft warm-up. Same iPhone15,2 / iOS 26.6.2 / Unity build GUID as the previous runs.
+- Device manifest records **`completed=true`, `interruptions=0`, `stop_reason=duration_reached`**. Console shows automatic completion through `PresenceRecorder.Update → Finish`. No export exception observed. Raw manifest remains unchanged as `instrumentation_only` / `unverified_player` / `unity_update_proxy`.
+- **35,973 samples / 35,972 intervals over 600.004520 seconds**. Update-interval p95 **16.895667 ms**, worst **23.554625 ms**. All ten full one-minute windows are **59.95–59.9667 Update FPS**. The tiny trailing partial window is unscored; its apparent rate is not a sustained FPS result. These values describe an empty diagnostic scene and do not establish animal rendering performance, validated display timing or flagship support.
+- Peak Unity allocated memory **70.136944 MiB**, not total process resident memory. Battery reported 0.90 → 0.95 while wired; no battery-drain conclusion. All thermal samples remain `unknown`; no touch timings, network/offline trace or animal/AR video was collected.
+- Device copy **PASS**: `artifacts/device-capture-copy-003.json` / `.log`; raw evidence under `artifacts/device-captures-003/<run-id>/`. This copy also preserves both earlier runs; byte comparison confirmed their manifest/CSV contents unchanged.
+- `python3 tools/benchmark.py artifacts/device-captures-003/<run-id> --output artifacts/diagnostic-analysis-003.json` parsed the physical recorder output and produced **PARTIAL**, exit **1**, **no measured failures**, **G-P NOT RUN**. Missing evidence includes animal content, validated timing, touches, thermal coverage, protocol/operator/asset context, offline/network review and undeclared crash/inference/warning counts. External provenance does not silently replace these missing raw declarations.
+- Raw SHA-256: manifest `838674eaf88d3c8ec7d7df40c352522b83f48d9a81a3f9c7f591d789ee9a8086`; frames `1e43956f4d989ac25ae5b62ba4593f7920f96d878c2c418dfbe68649ac6e751f`.
+
+**Diagnostic pipeline execution is verified end to end:** signed real-device launch → explicit operator start → warm-up → automatic 10-minute collection → device export → Mac copy → numerical inspection. The interruption paths are separately verified and retained. This is a tooling result only; it passes no milestone or product acceptance gate.
+
+Private complete evidence archive: `artifacts/m0-device-evidence-003.zip`, SHA-256 `d1cdeb43f1b7fe5bbfe0aca913fab673109091fea39e815bad7ce5ef677127c9`. Contains all three unchanged raw runs, three analysis reports, device/build provenance and log snapshots. The earlier interrupted-only archive is retained. Archives stay ignored/local, contain device identifiers and have not been published.
+
+**Next blocker:** select legitimate cat/dog assets, approve an all-in procurement ceiling and verify rights/motion/mobile suitability using [the asset plan](asset-plan.md). Also freeze two room configurations, two lighting conditions, warm-up/ambient/battery context and validated presentation/input/thermal methods. Serhan Sari owns engineering, art/licensing and testing. No animal/AR implementation, paid service or reconstruction work begins while these prerequisites remain unresolved. **M0 PARTIAL; M1–M3 and G-P/G-I/G-F/G-M NOT RUN.**

@@ -4,7 +4,7 @@
 
 Roadmap: **Everkio Pets → Everkio Spatial → Everkio People**.
 
-Implementation has started with M0 benchmark foundations and a Unity 6000.6.6f1 diagnostic project. This repository is **not yet a runnable AR application**. Unity compilation, iOS development build/signing and physical iPhone launch are verified. Licensed animals, AR and product acceptance remain pending. See [current handoff and blockers](docs/m0-status.md) and the [master specification](everkio_master_spec_v2.md).
+Implementation has started with M0 benchmark foundations and a Unity 6000.6.6f1 diagnostic project. This repository is **not yet a runnable AR application**. Unity compilation, iOS development build/signing and physical iPhone launch are verified. The diagnostic capture/export/analysis path is verified on a complete 600-second run; licensed animals, AR and product acceptance remain pending. See [current handoff and blockers](docs/m0-status.md) and the [master specification](everkio_master_spec_v2.md).
 
 ## Run the local checks
 
