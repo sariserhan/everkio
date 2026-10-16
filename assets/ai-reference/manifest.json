@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "created_date": "2026-10-15",
+  "tool": "built-in image_gen.imagegen",
+  "tool_model_version": null,
+  "source_media": "Original text prompts; no customer or third-party reference photos supplied",
+  "purpose": "Synthetic generic-animal input references for local AI-to-3D evaluation; not product screenshots or completed 3D assets",
+  "rights_status": "Generated through the available built-in tool; model software license alone is not an output clearance guarantee",
+  "assets": [
+    {
+      "species": "cat",
+      "file": "cat-tabby-v1.png",
+      "sha256": "fa88399d7d620ba5cfff9c8f6fb87ffa9ffd5368c8cc917a198d9a10a484ad4a",
+      "prompt": "Use case: photorealistic-natural. Asset type: original synthetic reference image for a generic adult cat 3D asset in Everkio. Create one single adult domestic shorthair cat, natural grey-brown tabby coat, green eyes, realistic adult proportions and detailed short fur. Full body standing in a neutral relaxed four-legged pose, head aligned with body, mouth closed, ears forward, tail extending out and gently down without touching any leg. A front three-quarter view with a moderate view of the cat's left side; camera near body height, minimal perspective distortion. Clearly separate all four legs and paws in silhouette. Center the entire animal with generous empty margin around paws, ears and tail. Neutral diffuse studio lighting, even exposure, no dramatic highlights or cast shadow. Truly transparent background. No floor, collar, accessories, text, watermark, people, duplicate animals, illustration, cartoon or plush styling. This image is a synthetic reference, not a specific real pet and not an in-app screenshot.",
+      "transparent_background": true
+    },
+    {
+      "species": "dog",
+      "file": "dog-labrador-v1.png",
+      "sha256": "874531df5d19c04526a07aa25c811e76ae33bfb9a4a7b600f886c4aa2abe9353",
+      "prompt": "Use case: photorealistic-natural. Asset type: original synthetic reference image for a generic adult dog 3D asset in Everkio. Create one single adult yellow Labrador retriever with natural short cream-golden fur, brown eyes, black nose, normal athletic adult proportions. Full body standing on four legs in a neutral relaxed pose, closed mouth, head aligned forward with body, ears hanging naturally, tail extending outward gently down without touching any leg. A front three-quarter view showing most of its left side; camera at body height with minimal perspective distortion. Arrange the stance so all four legs and paws are visibly separate in silhouette, with small natural separation between forelegs and hind legs. Center the entire animal with generous empty margin around paws, ears, and tail. Neutral diffuse studio lighting, even exposure without hard shadows. Truly transparent background. No floor, collar, accessories, text, watermark, people, duplicate animals, illustration, cartoon or plush styling. This is an original synthetic reference for a generic animal, not a specific person's pet or in-app screenshot.",
+      "transparent_background": true
+    }
+  ]
+}

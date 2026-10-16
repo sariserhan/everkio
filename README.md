@@ -26,6 +26,8 @@ Exit codes: 0 = single-run numerical checks passed; 1 = incomplete or failing ev
 - `unity/Everkio/`: pinned diagnostic project with an editor-generated instrumentation scene.
 - `unity/Packages/com.everkio.benchmarks/`: local recorder and diagnostic controls; compiled and exercised on iPhone with diagnostic evidence only.
 - `tools/unity_project.py`: source check, prepare, validate and guarded iOS export commands.
+- `tools/generate_animal.py`: pinned local CPU AI-to-3D evaluation with model/config checksums and immutable outputs; no accepted animal rig is implied.
+- [AI animal generation](docs/ai-animal-generation.md): original references, reproducible local workflow, generated mesh evidence and actual quality defects.
 - [Mac quickstart](docs/mac-quickstart.md): exact commands to compile and export for your iPhone.
 - [Benchmark protocol](docs/benchmark-protocol.md): methods, limitations and interpretation.
 - [Linux/Mac development workflow](docs/development-setup.md): shared source, Mac/iPhone build and validation path.

@@ -1,0 +1,13 @@
+# Isolated local evaluation environment only; not Unity/runtime dependencies.
+torch==2.14.1
+numpy==1.26.4
+omegaconf==2.3.0
+einops==0.7.0
+transformers==4.35.0
+huggingface-hub==0.17.3
+trimesh==4.12.2
+pillow==12.3.0
+imageio==2.38.1
+rembg[cpu]==2.0.69
+scikit-build-core==1.1.1
+pybind11==3.1.0

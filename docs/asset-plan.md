@@ -1,6 +1,6 @@
 # M0 cat/dog asset plan — 2026-10-15
 
-Status: **PARTIAL; AI-generated animals are the owner-selected direction.** The owner clarified that Everkio should generate its animals with AI. Buying a third-party animal pack is not a prerequisite. The store shortlist below is historical fallback research, not the selected implementation path. No spending is approved; no generation job has run and M1/M2 remain NOT RUN.
+Status: **PARTIAL; AI-generated animals are the owner-selected direction.** The owner clarified that Everkio should generate its animals with AI. Buying a third-party animal pack is not a prerequisite. The store shortlist below is historical fallback research, not the selected implementation path. No spending is approved. A subsequent local generic AI-to-3D evaluation generated both animals; static quality precheck failed, and M1/M2 remain NOT RUN. See [actual AI generation results](ai-animal-generation.md).
 
 ## AI asset direction — owner clarification
 
@@ -49,3 +49,10 @@ No suitable zero-cost pair is verified. Search-index leads included [Animated ca
 See [the concrete procurement decision packet](asset-procurement-decision.md). Official-source review found a legitimate-looking free Grey Cat demo, but its published clip inventory does not establish full required motion coverage and no verified zero-cost dog pair was found. The widely shared Evil_Katz cat is rejected without original-rights clearance because its uploader disclaims authorship and identifies a commercial-game source. No local cat/dog packages were found in the project or the inspected Unity Asset Store cache path.
 
 Owner explicitly retained **no spending approval** after seeing a proposed USD 200 all-in Domestic Animal Pack evaluation budget. That pack is not purchased or approved; original licensing, motion, mobile and realism checks remain mandatory. A provider saying free/realistic or a broad “complete the project” instruction does not resolve those evidence gaps. No asset files downloaded/imported and no vendor contacted.
+
+
+## First local AI generation — actual result
+
+Owner instructed execution. Original synthetic references and local TripoSR meshes now exist for both species at resolutions 128 and 256, with pinned source/weights, hashes, GLB/OBJ exports and four-view renders. This establishes a nonbillable local 3D-generation path, superseding the earlier “no generator selected/no generation run” state. Full provenance, commands and defects are in [AI animal generation](ai-animal-generation.md). No stock pack or remote inference service was used.
+
+The outputs remain evaluation drafts: coarse face/fur detail, open topology and missing rig/skinning/animation/PBR/mobile LODs prevent product acceptance. Static precheck is FAIL for product use; M1's complete evaluation and all product gates remain NOT RUN. Higher extraction resolution alone did not resolve quality. The next blocker is usable generated shape/material/rig quality, rather than a mandatory stock-asset purchase. Spending and personalized reconstruction research remain unapproved/unfunded as before.

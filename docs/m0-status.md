@@ -2,7 +2,7 @@
 
 **M0: PARTIAL. M1–M3: NOT RUN. G-P/G-I/G-F/G-M: NOT RUN.**
 
-Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 48 Python tests pass. A short Instruments Metal trace/export/inspection now works after unlock/relaunch, while timing calibration remains incomplete. Usable cat/dog assets remain absent and spending explicitly unapproved. The owner subsequently clarified AI generation as the selected asset direction; a stock-pack purchase is not required. See the final continuation below; earlier sections retain historical results.
+Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 55 Python tests pass. A short Instruments Metal trace/export/inspection now works after unlock/relaunch, while timing calibration remains incomplete. Static AI-generated cat/dog drafts now exist but fail the product quality precheck; spending remains unapproved. AI generation is the selected asset direction; a stock-pack purchase is not required. See the final continuation below; earlier sections retain historical results.
 
 ## Delivered
 - Initialized a local Git repository on `main`; no remote or public publication.
@@ -23,7 +23,7 @@ Unity compilation, editor tests, iOS build/install, asset rendering, actual FPS/
 | Baseline iPhone and test environment | iPhone 14 Pro; iOS 26.6.2 explicitly reconfirmed by user; baseline candidate | Verify installed OS/build and freeze device/room/lighting matrix |
 | Mac/Xcode build host | Diagnostic Unity export, signed Xcode build and iPhone deployment verified; details below | Revalidate when animal/AR dependencies are introduced |
 | Named owners | Serhan Sari confirmed engineering, art/licensing and testing ownership during live Mac execution | Owner coordinates procurement and protocol freeze |
-| Licensed cat/dog assets | No licensed packages present; shortlist documented; owner keeps spending unapproved | Owner supplies suitable already-licensed assets or later approves procurement; no spending now |
+| Usable cat/dog assets | Local generic AI-to-3D meshes produced; static quality precheck FAIL; no rig/animation/PBR/LOD acceptance | Improve generation/materials and establish a usable quadruped rig; stock procurement is optional, spending remains unapproved |
 | Timing/thermal validation | Update proxy only; native nominal thermals verified through full run; short independent Metal trace now exported/inspected | Correlate recorder/presentation clocks and calibrate input timing and overhead; thermal transitions untested |
 | Protocol freeze | Thresholds documented; warm-up, rooms and battery context not frozen | Test owner records conditions and protocol revision before scoring |
 | Research funding | Numerical caps/funding/vendors/cohort remain unset | Product/finance/research owners complete R0; no billable research starts |
@@ -275,3 +275,30 @@ XML export SHA-256 `4ea858cda57832b1f3f497f7e3c2f31d4e5fefd47db41d2206b08c3f6404
 ## Asset-direction correction — AI generation
 
 Owner clarified that the animals should be AI-generated. The prior continuation treated a stock-pack license as the practical next dependency; that was too narrow. Updated the asset plan and decision D13: select a suitable AI-to-3D workflow, establish output/model/source rights and resource requirements, then evaluate the generated mesh/rig/motion on the actual phone. No stock purchase is mandatory. No generator is selected, no generation job has run, and spending remains unapproved. Personalized reconstruction research retains its separate funding/consent controls. M0 remains PARTIAL; M1–M3 and all product gates remain NOT RUN.
+
+
+## AI animal generation 001 — actual local meshes produced
+
+Owner selected AI-generated animals and then instructed execution. Source baseline `63e93e1`. Work is original generic animal art preparation within M0–M3; no customer-pet reconstruction or R-track experiment. Original synthetic cat/dog PNGs were created using the built-in imagegen tool and saved with exact prompts/hashes in `assets/ai-reference/`. No third-party input photo, stock asset pack or paid generation API was used. Subscription/account cost for the built-in image calls was not independently measured; no new paid service or account was provisioned.
+
+Selected a local CPU TripoSR evaluation after checking official source/model documentation, license, current host resources and relevant code. Host is Apple M5 MacBook Air with 16 GB unified memory and approximately 35 GiB free before setup. Isolated Python 3.11 environment, weights and all generated raw evidence are under ignored `artifacts/ai-animals-001/`; no ML runtime dependency was added to the iPhone app. MIT notice retained in `third_party/TripoSR-LICENSE.txt`. Full provenance and reproducible commands: [AI animal generation](ai-animal-generation.md).
+
+| Check | Actual result | Private evidence |
+|---|---|---|
+| Model acquisition | Public official weights downloaded, 1,677,246,742 bytes; published SHA-256 matched | `ai-animals-001/weights-download.json`, `sources/triposr-model.json` |
+| Local extraction setup | CPU torchmcubes compiled successfully after correcting isolated-build dependency setup; initial failed install retained | `torchmcubes-install.log`, `torchmcubes-install-retry.log` |
+| First cat generation | FAIL: offline config cache not found because old hub client expects `HUGGINGFACE_HUB_CACHE`; failed output preserved | `cat-generation.log`, `cat-v1/generation.json` |
+| Resolution-128 cat / dog generation | PASS for static geometry/export only; 26,912 / 19,784 triangles, 8.014 / 7.236 recorded generation-stage seconds | `cat-v2/`, `dog-v1/` |
+| Resolution-256 cat / dog generation | PASS for static geometry/export only; 111,620 / 80,848 triangles, 13.400 / 13.359 recorded generation-stage seconds | `cat-res256/`, `dog-res256/` |
+| GLB round-trip and structure | PASS for count/hash/integrity checks; all four meshes have one connected component without repair; zero skins/animations/PBR material definitions, non-watertight topology | `mesh-roundtrip-checks-v2.json`, `glb-structure-checks.json` |
+| Desktop four-view previews | Valid visible-window renders obtained and visually inspected; earlier hidden-window blank/clipped images and Cocoa teardown failure preserved as invalid previews | `cat-res256/preview-visible-*.png`, `dog-res256/preview-visible-*.png`, preview helper/logs |
+| Final runner provenance guard | PASS on actual pinned source/model/config and cached DINO checksum; preflight creates no output | `final-preflight-check.log` |
+| Python checks | PASS — **55 tests**, including seven new generation guard tests; real local inference and GLB checks above are separate from synthetic tests | `python-tests-final-guarded.log` |
+
+Recorded stage times exclude dependency imports, reference generation, installation and downloads. No offline-tool peak-memory/thermal/battery claim. The runner forces offline hub/transformer reads, CPU inference and fixed extraction settings; there is no hosted-inference dispatch path. Public model/config downloads were separate network reads. It rejects an existing output directory, missing inputs, modified/unpinned source and wrong model/config checksums. No self-retry loop, automatic paid fallback or external compute resource was created.
+
+**Static asset quality precheck: FAIL for product use.** Both resolutions have blurry/inferred eyes and muzzles, coarse coat detail and imperfect limb/paw silhouettes. Higher resolution adds triangles without resolving those appearance defects. No rig/skinning, breathing/locomotion/contact clips, PBR eyes/fur, verified physical scale or mobile LODs exist. No mesh was imported into the Unity diagnostic project or installed on the phone. These desktop renders are not animal/AR device evidence and pass no milestone.
+
+Final cat GLB SHA-256 `c9795ad038f58054dd6a0edf3db1cf81751a568c8cccac722a6f4d126d929cd9`; dog `c2ef045b05e73075d708e6570a271ebfa067a16c3d3e0daaa530f8cc6a1c7a6e`. Private archive `artifacts/m0-ai-animals-001.zip`, SHA-256 `eba67315be3d2155971b03fceb441ddf55916a420627b1c1a1959620ac19c3f4`; 116 files, ZIP integrity verified. Contains references, generated meshes/inputs/previews, failures, provenance/config/license records, runner/tests and logs; excludes the large model weights and installed environment, which remain local. File hashes are recorded in `artifacts/ai-animals-001/evidence-index.json`. The first component-analysis report is superseded by v2 because trimesh's default split repaired holes; no source mesh was changed.
+
+The prior “no generation run” and mandatory-stock-procurement blocker are superseded. Next blocker is **usable generated asset quality plus quadruped rig/motion**, followed by the remaining M0 protocol/calibration requirements. A higher-quality generation/material cleanup route must be evaluated within the unchanged no-spending boundary; do not lower the realism bar or disguise missing animation. **M0 PARTIAL; M1–M3 and G-P/G-I/G-F/G-M NOT RUN.** No paid infrastructure, customer media intake, reconstruction research or M4–M14 implementation performed.
