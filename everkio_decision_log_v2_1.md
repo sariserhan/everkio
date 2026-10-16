@@ -46,3 +46,8 @@ Record ID/date, proposer and approving product owner, affected requirement/gate,
 ## D13 — AI-generated generic animals, owner clarification October 15, 2026
 
 The owner clarified: “we supposed to generate animal with AI.” AI generation is the selected cat/dog asset direction for the generic presence work; a stock animal-pack purchase is not mandatory. Earlier procurement research remains historical fallback evidence. Record generation-model/output terms and source-media rights, then verify actual reusable 3D mesh/rig/motion/mobile quality. This does not relax realism, movement, device or acceptance gates, approve spending, authorize pet-identity reconstruction execution, or extend M0–M3 scope. No generator selected or generation job executed by this decision.
+
+
+## D14 — Conditional authorization through M14, October 15, 2026
+
+Owner explicitly answered: “Yes—authorize M4–M14 after gates; no spending.” M4–M14 implementation is now conditionally authorized once each phase's prerequisite gates pass. This replaces the earlier requirement to obtain another implementation-scope approval at M3. It does not pass or waive any gate, approve expenditure, fund reconstruction research, authorize public/commercial launch, or supply absent physical devices, cohorts or rights. No paid services, purchases, metered generation or reconstruction jobs may start without separately approved funded hard caps. Current M0 PARTIAL and M1–M3/product-gate NOT RUN results are unchanged.

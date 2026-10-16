@@ -27,9 +27,10 @@ Exit codes: 0 = single-run numerical checks passed; 1 = incomplete or failing ev
 - `unity/Packages/com.everkio.benchmarks/`: local recorder and diagnostic controls; compiled and exercised on iPhone with diagnostic evidence only.
 - `tools/unity_project.py`: source check, prepare, validate and guarded iOS export commands.
 - `tools/generate_animal.py`: pinned local CPU AI-to-3D evaluation with model/config checksums and immutable outputs; no accepted animal rig is implied.
+- `tools/prepare_animal_rig.py`: experimental pinned Blender quadruped preparation; output checks work, but the PyPI Blender process currently crashes during shutdown. Not a reliable unattended pipeline.
 - [AI animal generation](docs/ai-animal-generation.md): original references, reproducible local workflow, generated mesh evidence and actual quality defects.
 - [Mac quickstart](docs/mac-quickstart.md): exact commands to compile and export for your iPhone.
 - [Benchmark protocol](docs/benchmark-protocol.md): methods, limitations and interpretation.
 - [Linux/Mac development workflow](docs/development-setup.md): shared source, Mac/iPhone build and validation path.
 
-Active implementation is M0–M3 only. Production behavior, accounts, uploads, payments, persistent memory, headsets and humans remain deferred. Parallel reconstruction research requires the documented funded budget and enforcement prerequisites; no billable research has started.
+Current work remains at M0–M3 prerequisites. Decision D14 conditionally authorizes M4–M14 after their prerequisite gates pass, with spending still unapproved; it grants no public/commercial launch approval. Production behavior, accounts, uploads, payments, persistent memory, headsets and humans have not passed their prerequisites. Parallel reconstruction research still requires the documented funded budget and enforcement controls; no billable research has started.

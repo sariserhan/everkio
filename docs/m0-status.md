@@ -2,7 +2,7 @@
 
 **M0: PARTIAL. M1–M3: NOT RUN. G-P/G-I/G-F/G-M: NOT RUN.**
 
-Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 55 Python tests pass. A short Instruments Metal trace/export/inspection now works after unlock/relaunch, while timing calibration remains incomplete. Static AI-generated cat/dog drafts now exist but fail the product quality precheck; spending remains unapproved. AI generation is the selected asset direction; a stock-pack purchase is not required. See the final continuation below; earlier sections retain historical results.
+Latest live result: signed iPhone diagnostic build, PNG export and automatic 600-second native-thermal capture work; 61 Python tests pass. A short Instruments Metal trace/export/inspection now works after unlock/relaunch, while timing calibration remains incomplete. Ungated AI-generated cat/dog shapes and draft skinned exports now exist, but fail the product quality precheck; spending remains unapproved. AI generation is the selected asset direction; a stock-pack purchase is not required. See the final continuation below; earlier sections retain historical results.
 
 ## Delivered
 - Initialized a local Git repository on `main`; no remote or public publication.
@@ -23,7 +23,7 @@ Unity compilation, editor tests, iOS build/install, asset rendering, actual FPS/
 | Baseline iPhone and test environment | iPhone 14 Pro; iOS 26.6.2 explicitly reconfirmed by user; baseline candidate | Verify installed OS/build and freeze device/room/lighting matrix |
 | Mac/Xcode build host | Diagnostic Unity export, signed Xcode build and iPhone deployment verified; details below | Revalidate when animal/AR dependencies are introduced |
 | Named owners | Serhan Sari confirmed engineering, art/licensing and testing ownership during live Mac execution | Owner coordinates procurement and protocol freeze |
-| Usable cat/dog assets | Local generic AI-to-3D meshes produced; static quality precheck FAIL; no rig/animation/PBR/LOD acceptance | Improve generation/materials and establish a usable quadruped rig; stock procurement is optional, spending remains unapproved |
+| Usable cat/dog assets | Local generic AI-to-3D meshes and movable rig drafts produced; quality precheck FAIL; no animation/PBR/LOD acceptance | Improve generation/materials and establish a usable quadruped rig; stock procurement is optional, spending remains unapproved |
 | Timing/thermal validation | Update proxy only; native nominal thermals verified through full run; short independent Metal trace now exported/inspected | Correlate recorder/presentation clocks and calibrate input timing and overhead; thermal transitions untested |
 | Protocol freeze | Thresholds documented; warm-up, rooms and battery context not frozen | Test owner records conditions and protocol revision before scoring |
 | Research funding | Numerical caps/funding/vendors/cohort remain unset | Product/finance/research owners complete R0; no billable research starts |
@@ -302,3 +302,27 @@ Recorded stage times exclude dependency imports, reference generation, installat
 Final cat GLB SHA-256 `c9795ad038f58054dd6a0edf3db1cf81751a568c8cccac722a6f4d126d929cd9`; dog `c2ef045b05e73075d708e6570a271ebfa067a16c3d3e0daaa530f8cc6a1c7a6e`. Private archive `artifacts/m0-ai-animals-001.zip`, SHA-256 `eba67315be3d2155971b03fceb441ddf55916a420627b1c1a1959620ac19c3f4`; 116 files, ZIP integrity verified. Contains references, generated meshes/inputs/previews, failures, provenance/config/license records, runner/tests and logs; excludes the large model weights and installed environment, which remain local. File hashes are recorded in `artifacts/ai-animals-001/evidence-index.json`. The first component-analysis report is superseded by v2 because trimesh's default split repaired holes; no source mesh was changed.
 
 The prior “no generation run” and mandatory-stock-procurement blocker are superseded. Next blocker is **usable generated asset quality plus quadruped rig/motion**, followed by the remaining M0 protocol/calibration requirements. A higher-quality generation/material cleanup route must be evaluated within the unchanged no-spending boundary; do not lower the realism bar or disguise missing animation. **M0 PARTIAL; M1–M3 and G-P/G-I/G-F/G-M NOT RUN.** No paid infrastructure, customer media intake, reconstruction research or M4–M14 implementation performed.
+
+
+## Ungated AI shape and rig continuation 002
+
+Owner approved **M4–M14 after prerequisite gates, no spending** (D14), then chose **continue without gated weights**. This continuation remains M0 generic asset preparation. No milestone, launch, purchase, customer-upload or reconstruction-research gate is waived. No new Unity features, animal/AR import, iPhone build or deployment occurred; the installed diagnostic's earlier results remain historical evidence, not new animal evidence.
+
+| Check | Actual result | Private evidence under `artifacts/ai-animals-002/` |
+|---|---|---|
+| Ungated TripoSG weights | Published sizes/LFS hashes checked; pinned public revision; no credentials | `triposg-downloads.json`, `sources/`, environment freeze |
+| Local Metal shape generation | Cat/dog succeed; 254,664 / 255,004 raw triangles; generation stages 95.453 / 97.309 seconds | `cat-triposg/`, `dog-triposg/`, process JSON/logs |
+| Shape inspection | Both reload finite/watertight with tiny extraction debris; smoother silhouettes than TripoSR, still defective faces/surfaces and no coat | `triposg-mesh-checks.json`, four yaw previews per species |
+| Draft rig preparation | Corrected shared-joint scaling, ignored quaternion yaw and ineffective limb fit; derived 30,000-triangle rigs, zero unweighted vertices, max four normalized influences | `cat-rig-v3/`, `dog-rig-v3/`, tracked fit records/tool |
+| Independent saved-rig smoke checks | Exit 0 for both; head, neck and four foot controls produce finite movement and reset; GLB/FBX retain skins/rest geometry | `*-rig-v3/deformation-roundtrip-final.json`, `*-rig-v3-review-final2.log`, neutral/head-pose renders |
+| Preparation process reliability | **FAIL**: corrected V3–V7 drafts saved before native shutdown SIGSEGV / exit 139. Reopen processes succeed; this does not make preparation reliable | `process-results.json`, `blender-prepare-shutdown-crash.ips`, failed-run logs |
+| Gated SF3D | Native dependencies/CPU bake smoke prepared; no weights downloaded or inference run. Owner then chose to skip gated weights | `sf3d-*.log`, `sf3d-baker-smoke.json` |
+| Regression suite | **PASS — 61 tests**, including six rig-fit guard tests; synthetic checks separate from real Blender runs | `python-tests-final.log` |
+
+Full provenance, timings, hashes, source notices, experimental reproduction command and defects are in [AI animal generation](ai-animal-generation.md). Model/source/Blender dependencies remain isolated from Unity and the standard-library test runtime. No hosted inference dispatch, paid resource or pet reconstruction study was started. Source/model/dependency terms remain distinct; no stock license is required for this selected AI route. Stable Fast 3D account access is not treated as local authentication, a downloaded model or generation evidence.
+
+The native crash occurs during allocator/static destruction in the preserved report. Serial execution and several orderly shutdown attempts failed; no forced process exit masks it. The official Blender binary download listing returned HTTP 403 on this host. This is a local rig-tool reliability blocker, not evidence of an iPhone app crash. Current tracked tool is explicitly experimental. An apparent extra mesh during reimport was identified as Blender's bone-display helper; binary GLB inspection confirmed one exported animal mesh. No deformed-pose export parity or natural-motion acceptance is claimed.
+
+**Next blockers:** reliable rig authoring; usable anatomy, PBR coat/eyes/fur and required reviewed motion clips; physical scale/LOD preparation; and remaining M0 room markings, ambient/battery context, timing calibration and protocol freeze. Reviewers/cohort/device evidence still have to follow. The gray desktop mesh renders are not AR or animal-presence evidence. **M0 PARTIAL; M1–M3 and G-P/G-I/G-F/G-M NOT RUN.** Conditional M4–M14 authority is recorded, but their gates have not been reached. No additional spending or reconstruction research is authorized.
+
+Private evidence archive `artifacts/m0-ai-animals-002.zip`: **142 files**, 38,270,517 bytes, SHA-256 `91f0958e6403c4aaccccf1def818dee33bc9f3f36a02157a09a63330e2712f40`; ZIP integrity verified. Per-file hashes: `artifacts/ai-animals-002/evidence-index.json`. Includes model driver/patch, patched source, environment freezes, original output/rig drafts, failures, independent checks, previews, crash report and final test log; excludes large weights, installed environments and wheel. Evidence stays local/ignored; no credentials committed.

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "species": "dog",
+  "source_mesh_sha256": "41884f18a50392982d1e6713349087704ce4936a1a0844669dad04f1146cc97b",
+  "blender_version": "4.5.14",
+  "metarig": "basic_quadruped",
+  "yaw_degrees": 90,
+  "normalization": "height 1.0, floor 0.0; not a physical scale declaration",
+  "template_fit": {
+    "x_scale": 1.35,
+    "front_y_scale": 1,
+    "rear_y_scale": 1.35,
+    "z_scale": 0.95
+  },
+  "target_triangles": 30000,
+  "status": "DRAFT_REQUIRES_DEFORMATION_REVIEW",
+  "center_x": 0.067
+}

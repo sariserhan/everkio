@@ -1,4 +1,6 @@
-# M0 asset procurement decision — pending owner approval
+# M0 asset direction — AI generation selected
+
+Decision D13 supersedes the stock-pack proposal below: generate original generic cat/dog assets with recorded reference/model/source rights. No stock purchase is required or approved. Local ungated TripoSR and TripoSG evaluations have produced drafts; the current blocker is usable materials, anatomy and motion, not a missing stock license. The owner chose to continue without gated weights. See [actual generation and rig results](ai-animal-generation.md). The procurement material below is historical fallback research; quoted prices are not a current purchase recommendation.
 
 Date: 2026-10-15. Owner: Serhan Sari. Status: **PARTIAL / blocked**. Current spending authorization: **none — owner explicitly chose “Keep spending unapproved” after reviewing the USD 200 proposal.** No acquisition, checkout, purchase, vendor contact or asset import has occurred.
 

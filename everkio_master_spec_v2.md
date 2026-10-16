@@ -6,9 +6,9 @@
 
 ## Revision control and authority
 - **Confirmed scope:** generic cat and dog presence testing first; separate pet-identity reconstruction feasibility research may proceed in parallel under a documented fixed research budget. Generic rendering results never establish personalized reconstruction feasibility.
-- **Active implementation:** M0–M3 only. Passing an intermediate M0–M2 gate permits the next milestone within this authorized scope; record the decision without requiring renewed scope approval.
+- **Current implementation:** M0–M3 prerequisites. Passing an intermediate gate permits the next milestone within the conditionally authorized scope in D14; record the evidence and decision without requiring renewed scope approval.
 - **Authorized research:** R0–R4 in the [parallel reconstruction experiment plan](everkio_reconstruction_feasibility_plan.md). Research authorization does not authorize M5 production implementation, commerce, customer uploads, or a public pilot.
-- **Deferred implementation:** M4–M14 require explicit product-owner approval identifying scope, prerequisites and budget. Passing tests does not grant this approval automatically.
+- **Implementation authorization update (D14, October 15, 2026):** the owner explicitly authorizes M4–M14 after their prerequisite gates pass, with no spending approved. Earlier phase descriptions and historical approval stops remain in this document; D14 governs implementation scope. Public/commercial launch and every billable operation retain their separate approval/funding requirements. Passing tests alone never passes a prerequisite gate.
 - **Current task:** documentation only; no application features, paid services, cloud resources, asset purchases, or experiments are executed by this revision.
 - **Control hierarchy:** confirmed decisions and authority in this section govern the document; phase descriptions define eventual ownership, not permission. If requirements conflict, record a blocker and resolve it through the decision log before implementation.
 - **Change control:** record proposed changes, rationale, evidence, owner decision and affected gates in the [decision log](everkio_decision_log_v2_1.md). Realism, low latency, AR presence and strict spending limits cannot be silently relaxed. A failing gate remains failed or unrun until evidence meets its approved criteria.
@@ -27,7 +27,7 @@
 ### P0 — Everkio Pets presence feasibility (initial estimate 4–8 weeks; conditional)
 - One licensed/owned photorealistic adult cat and one dog, realistic fur/eyes/proportions, believable animation at multiple viewing angles.
 - Real-time AR floor placement and anchoring, camera motion, scale, lighting approximation, contact shadows, baseline occlusion where device supports it.
-- Walk, turn, sit, lie, eat, idle, react to tap/stroke, approach. Rigged animation + IK and a minimal scripted test controller; no per-frame generative calls. The production behavior planner belongs to M4 and is not authorized here.
+- Walk, turn, sit, lie, eat, idle, react to tap/stroke, approach. Rigged animation + IK and a minimal scripted test controller; no per-frame generative calls. The production behavior planner belongs to M4 and is conditional on prerequisite gates under D14.
 - Instrument FPS frame times, memory, thermal conditions, battery drain, touch response, tracking drift, clipping and cost.
 - Evaluate **A:** high-quality rigged mesh/PBR fur, **B:** hybrid rig + neural/Gaussian appearance. Select after device tests; Gaussian-only is not presumed viable for locomotion.
 - P0 implementation exclusion: users/accounts, payments, customer-upload reconstruction, production behavior/memory, conversation, social systems. Separate consented research assets may be evaluated only through the bounded parallel research track.
@@ -180,7 +180,7 @@ A preview rejection creates no final-purchase obligation. A failed preview follo
 - **M6: Payment + hard-budget backend.** Atomic cost reservations, vendor kill switches, ledger, entitlements; chaos/abuse tests.
 - **M7: MVP onboarding, media management, private memorial, capture.** Real user tests and policy audit.
 - **M8: Commercial pilot.** Controlled number of purchasers, observe fidelity ratings, costs/retries, refunds, 14-day retention and crash stats.
-- **M4–M14:** all implementation outside M0–M3 requires explicit approval and prerequisite evidence, including M5 despite parallel research authorization.
+- **M4–M14:** D14 supplies conditional implementation approval; prerequisite evidence is still required, including M5 despite parallel research authorization.
 
 ## 9. Explicit stop/kill criteria
 - Stop photorealistic custom-reconstruction scope if owner likeness or moving deformation repeatedly fails blind tests.
@@ -203,7 +203,7 @@ A preview rejection creates no final-purchase obligation. A failed preview follo
 **Deferred until evidence:** exact Unity version and licensing, asset/model vendor choice, feasible image-to-3D algorithm and guaranteed fidelity, device support matrix, pricing/allowances, voice-to-animation model, export formats, commercial conversion thresholds, headset-specific release dates.
 
 ## 12. Immediate agent directive
-Implement only M0–M3 within the authorized engineering track. Produce executable benchmark and captured real-device evidence; do not describe presence as passed from editor previews. Run separate R0–R4 reconstruction research only after R0 establishes documented numerical budget ceilings, rights, cohort and server-enforced reservations for all billable operations. Research may run alongside M0–M3 and cannot claim identity success from generic assets. Report assumptions, measured metrics, risks, dependencies and stop conditions at each gate. Do not implement M4–M14 without explicit approval. This documentation task executes neither track.
+Implement only M0–M3 within the authorized engineering track. Produce executable benchmark and captured real-device evidence; do not describe presence as passed from editor previews. Run separate R0–R4 reconstruction research only after R0 establishes documented numerical budget ceilings, rights, cohort and server-enforced reservations for all billable operations. Research may run alongside M0–M3 and cannot claim identity success from generic assets. Report assumptions, measured metrics, risks, dependencies and stop conditions at each gate. D14 supplies conditional M4–M14 implementation approval after prerequisite gates, with no spending approved. This documentation task executes neither track.
 
 ## Reference sources retained from v2.0 (not reverified in v2.1)
 - Unity AR Foundation supports ARKit/ARCore provider paths: https://docs.unity.cn/Packages/com.unity.xr.arfoundation%406.1/manual/index.html
@@ -216,7 +216,7 @@ Implement only M0–M3 within the authorized engineering track. Produce executab
 # PART II — FULL PRODUCT LIFECYCLE SPECIFICATION (BEYOND INITIAL RELEASE)
 
 ## 13. Full feature coverage and dependency map
-This document separates **product completeness** from **engineering authorization**. M0–M3 implementation and budget-gated R0–R4 research are the only authorized tracks. All M4–M14 implementation needs explicit approval. Any unmeasured target is a requirement or identified proposed threshold, not evidence of achieved quality. Future platform/API/licensing statements require verification at the relevant gate.
+This document separates **product completeness** from **engineering authorization**. M0–M3 implementation is authorized and R0–R4 research requires its funded-budget prerequisites. D14 conditionally authorizes M4–M14 implementation after prerequisite gates; spending remains unapproved. Any unmeasured target is a requirement or identified proposed threshold, not evidence of achieved quality. Future platform/API/licensing statements require verification at the relevant gate.
 
 | Feature | Earliest phase | Main prerequisite | Acceptance evidence |
 |---|---|---|---|
@@ -359,7 +359,7 @@ Each milestone handoff **must** include: source commit, reproducible setup, chan
 - Log architecture decisions as ADRs, provider licensing terms, trademark/domain verification results, and regional privacy/payment compliance status.
 - **Still requires evidence:** exact cost per reconstruction; price elasticity and customer demand; photorealistic coat deformation; quality from sparse or historic media; sustainable phone thermals; headset SDK and runtime feature matrix; eventual human legal framework.
 - **Brand status:** **Everkio** is the selected product name; **Feel their presence.** is the tagline. Domain availability and trademark clearance are mandatory pre-public-launch blockers; selection does not assert clearance or ownership.
-- **Implementation authorization:** v2.1 is the master plan for Everkio Pets → Everkio Spatial → Everkio People. M0–M3 implementation and bounded R0–R4 research only are authorized; all other implementation and every public/commercial launch require explicit approval after prerequisite gates.
+- **Implementation authorization:** v2.1 plus decision D14 governs Everkio Pets → Everkio Spatial → Everkio People. M0–M3 is authorized; M4–M14 is conditionally authorized after prerequisite gates, with no spending approved. R0–R4 retains its independent funded-budget prerequisites. Every public/commercial launch requires separate explicit approval.
 
 
 ## 22. Independent acceptance gates and evidence control

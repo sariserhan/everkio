@@ -4,7 +4,7 @@ Date: 2026-10-15. Governing document: [master specification v2.1](everkio_master
 Product: **Everkio — Feel their presence.** Track: **Everkio Pets generic presence**.
 
 ## Authority and current status
-M0–M3 implementation is authorized; this revision only documents the work. No milestone has run and no application code or cloud resources are delivered here. R0–R4 is a separate research track. M4–M14 and public release require explicit approval. Passing M0–M2 permits progression within M0–M3; it does not grant additional scope.
+M0–M3 implementation is authorized; this revision only documents the work. No milestone has run and no application code or cloud resources are delivered here. R0–R4 is a separate research track. Decision D14 (October 15, 2026) now conditionally authorizes M4–M14 after their prerequisite gates pass, with no spending approved. Public/commercial release remains separately controlled. Passing M0–M2 permits progression within M0–M3; no gate is waived by D14.
 
 Use one generic adult cat and one generic adult dog. Build only the scene, rig/animation, input test controller and instrumentation necessary to evaluate presence. Accounts, commerce, uploads, production memory, learned commands, social features, headsets and human reconstruction are excluded from this track.
 
@@ -55,4 +55,4 @@ G-P passes only if the required baseline runs, latency, motion/AR review and bli
 ## Handoff and stop rules
 Each M0–M3 handoff includes commit/artifact digest, reproducible setup, device/OS/build, raw logs, videos, test counts, costs if any, defects, blocker owner and PASS/PARTIAL/FAIL/NOT RUN. Initial status of every milestone and G-P is **NOT RUN**; blockers B01/B02/B07 in the master spec are unresolved.
 
-After a failed gate, record the failure and a bounded corrective plan within authorized scope. If two evaluated rendering iterations cannot meet presence criteria, stop expansion and request a feasibility decision; do not rebrand a less realistic result as success. M3 completion produces a decision packet for M4 approval, not permission to begin M4 or launch. Reconstruction outcomes are reported separately.
+After a failed gate, record the failure and a bounded corrective plan within authorized scope. If two evaluated rendering iterations cannot meet presence criteria, stop expansion and request a feasibility decision; do not rebrand a less realistic result as success. M3 completion produces a gate decision packet. D14 already conditionally authorizes M4 implementation when its prerequisites pass; it grants no public/commercial launch permission. Reconstruction outcomes and their funding controls are reported separately.
