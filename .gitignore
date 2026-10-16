@@ -16,3 +16,7 @@ artifacts/
 unity/**/*.csproj
 unity/**/*.sln
 unity/**/.vs/
+unity/**/*.xcuserdatad/
+*.p12
+*.pfx
+*.mobileprovision

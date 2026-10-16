@@ -61,6 +61,8 @@ namespace Everkio.Editor
         public static void ExportIOS()
         {
             Validate();
+            if (!BuildPipeline.IsBuildTargetSupported(BuildTargetGroup.iOS, BuildTarget.iOS))
+                throw new InvalidOperationException("iOS Build Support is unavailable. Install it for Unity " + EditorVersion + " in Unity Hub, then retry.");
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS)
                 throw new InvalidOperationException("Launch Unity with -buildTarget iOS before exporting.");
             string output = RequiredArgument("-everkioOutput");
