@@ -14,7 +14,7 @@ The inspector calculates nearest-rank p95 from adjacent timestamps. One-minute F
 
 Numerical PASS requires physical-device metadata, validated presentation timing, completion, ≥100 touch events in this bundle, thermal coverage, memory and battery endpoints, zero reported chargeable inference/crashes/interruptions/warnings, and offline/network review. Missing inputs yield PARTIAL; measured violations yield FAIL; malformed evidence is rejected. These are evidence declarations, not authenticity verification. The inspector cannot independently validate an operator's claims or a referenced video. It **always leaves G-P NOT RUN** for human/cohort review.
 
-The spec permits 100 touches aggregated across three sessions. The single-run inspector conservatively returns PARTIAL for fewer samples; `tools/benchmark_series.py` now supports a numerical series for one animal/device. Blinded rating aggregation and full gate automation remain unimplemented. Do not fabricate events to make either inspector pass.
+The spec permits 100 touches aggregated across three sessions. The single-run inspector conservatively returns PARTIAL for fewer samples; `tools/benchmark_series.py` now supports a numerical series for one animal/device. `tools/presence_ratings.py` now checks one frozen cat/dog clip pair and its anonymous ratings. Full gate automation remains unimplemented. Do not fabricate events to make either inspector pass.
 
 ## Unity recorder limitations
 `PresenceRecorder` collects **Update cadence**, not display presentation. The package deliberately declares `unity_update_proxy` and does not create touch measurements. The original device captures wrote thermal state as `unknown`; the subsequent iOS bridge samples `NSProcessInfo.thermalState` for every recorded Update. Editor, simulator and unsupported native values remain `unknown`. The optional manifest field `thermal_method` records the provider (`ios_nsprocessinfo_thermalstate_per_update` or `unavailable`). Thermal state is an OS category, not a temperature measurement or an independent OS-warning/crash declaration. A recorder export cannot pass the inspector as acceptance evidence. Native nominal thermal sampling was verified in both a short physical-device smoke capture and a complete 600-second diagnostic (35,973 nominal samples; see status log). Thermal transitions, instrumentation overhead and timing against independent device presentation/high-speed video remain unvalidated before scored animal runs.
@@ -73,3 +73,15 @@ All supplied failed/incomplete runs remain in the result; there is no best-three
 ## Independent presentation trace preparation
 
 A short Metal System Trace capture/export and process-attributed displayed-surface inspection now work on the baseline phone; see [the reproducible setup commands](mac-quickstart.md#presentation-measurement-setup-checks). `tools/metal_trace.py` deliberately outputs PARTIAL / G-P NOT RUN. Its reported swap p95/worst describe only the supplied attributed rows, without asserting full-session continuity, frozen conditions, recorder-clock correlation or calibrated overhead. A 15-second idle trace cannot replace three 600-second animal sessions. CPU-to-display latency is not input-to-visible latency, and HUD logging is a separate workload. Earlier raw captures keep their original timing declarations.
+
+
+## Blinded rating analysis preparation
+
+Use the [empty study template](../benchmarks/ratings-template/README.md) with actual consented, blinded data when approved clips and study conditions are ready. No cohort study has run. Freeze the anonymous enrolled cohort, method and clip hashes before collection. The analyzer includes every enrolled ID in each denominator, reports explicit abstentions separately, flags missing responses and requires at least 20 respondent IDs; participation and identity are independently reviewed. Each animal's realism, room presence and natural motion must separately have at least 80% ratings ≥4/5; exact integer comparisons avoid rounding at the boundary. Clip order is balanced cat-first/dog-first, and each evaluator sees the two positions once.
+
+```sh
+python3 tools/presence_ratings.py benchmarks/runs/private-study \
+  --output benchmarks/runs/private-study-report.json
+```
+
+The output is new and immutable. Input hashes bind the manifest, CSV and referenced clip files; mismatches, duplicate responses, unknown cohort IDs, reused clips, invalid scores and escaping paths are rejected. `physical_device` / `animal_presence` and nonempty provenance references are declarations, not authenticity verification. Missing declarations or diagnostic/desktop inputs cannot receive a complete numerical result. The tool cannot validate participants, consent, blinding, free-text defects, clip contents or independent review, and **always leaves G-P NOT RUN**. Preserve qualitative notes and failed/abstained cases for manual review; synthetic fixtures are tests only.

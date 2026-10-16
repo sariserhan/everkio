@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "protocol_revision": "",
+  "operator": "",
+  "blinding_reference": "",
+  "consent_reference": "",
+  "evidence_kind": "unverified",
+  "scene_content": "not_run",
+  "evaluator_ids": [],
+  "clips": {
+    "cat": {"clip_id": "candidate-cat-01", "file": "clips/cat.mp4", "sha256": "", "device": "", "os": "", "build": "", "asset_digest": ""},
+    "dog": {"clip_id": "candidate-dog-01", "file": "clips/dog.mp4", "sha256": "", "device": "", "os": "", "build": "", "asset_digest": ""}
+  }
+}

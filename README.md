@@ -26,6 +26,7 @@ Exit codes: 0 = single-run numerical checks passed; 1 = incomplete or failing ev
 - `unity/Everkio/`: pinned diagnostic project with an editor-generated instrumentation scene.
 - `unity/Packages/com.everkio.benchmarks/`: local recorder and diagnostic controls; compiled and exercised on iPhone with diagnostic evidence only.
 - `tools/unity_project.py`: source check, prepare, validate and guarded iOS export commands.
+- `tools/presence_ratings.py`: frozen-cohort blinded rating checks with separate species/dimension thresholds; never grants G-P.
 - `tools/generate_animal.py`: pinned local CPU AI-to-3D evaluation with model/config checksums and immutable outputs; no accepted animal rig is implied.
 - `tools/prepare_animal_rig.py`: pinned Blender draft quadruped preparation with source/fit guards and orderly Rigify UI cleanup; tested on both generated animals, without claiming motion/realism acceptance.
 - [AI animal generation](docs/ai-animal-generation.md): original references, reproducible local workflow, generated mesh evidence and actual quality defects.
