@@ -26,14 +26,18 @@ The published CUDA paths are **not verified to work on this Apple silicon Mac**.
 
 Prefer original footage for one cat and one dog, with permission from the media rightsholder and animal owner where different. Internet visibility, a dataset download link or permission to view a clip does not establish reconstruction, training-reuse or output-delivery rights. Keep model-code, weights, template, source-media and derived-output terms separately recorded.
 
-For a living animal when new capture is possible:
+**Owner-selected source: existing recordings only.** No new filming is required. This does not establish ownership, permissions, file availability, coverage or whether either animal belongs to the living or memorial path.
 
-1. Use consistent diffuse light, a simple background and a visible floor. Keep the whole animal, paws and tail in view; avoid motion blur and changing zoom.
-2. Capture front, back, both sides and intermediate angles, plus close face/eye/ear/nose and distinctive coat details. Record a known size reference separately to establish scale.
-3. Record short separate clips of natural standing, walking, turning and settling/sitting/lying when available. Record the animal, not a screen playing another recording. Do not force an uncomfortable pose to fill the motion list.
-4. Reserve a separate camera pass and separate motion clip as held-out evaluation. Do not split adjacent frames from the same clip between input and held-out sets and call them independent evidence.
+After rights/retention and R0 prerequisites are documented, assess the archives as follows:
 
-These are proposed coverage targets, not a demonstrated sufficient capture recipe or a fixed required photo count. Existing archives may have missing angles/scale; record those unknowns and permit rejection rather than inventing identity details. Memorial material retains its separately governed path; no new capture is presumed possible.
+1. Preserve original files unchanged in the agreed private location; inventory hashes, dimensions, duration, frame timestamps and any audio/personal background content. Use separate working copies. Do not search personal folders or upload files automatically.
+2. Group recordings by the same individual animal. Check front/back/sides, face/ears/eyes, coat markings, paws/tail and visible natural motion. Mark each region as visible, blurred/occluded or absent. Different animals cannot fill missing views of one identity.
+3. Prefer original, focused, minimally compressed footage over reposts or screenshots. Review motion blur, lighting changes, zoom, cuts, frame duplication and overlays before selecting frames. Many adjacent frames do not provide many independent viewpoints.
+4. Reserve an entire separate recording/camera pass for held-out comparison where available. If only one clip exists, label a disjoint time segment as a weak internal check; do not call it independent evidence. Missing independent views can block full identity acceptance even if an exploratory result looks good.
+5. Record physical scale as unknown unless a credible measurement/reference is already available. Missing back/underside, eye detail, fur or actions remain unknown. Interpolated/generated views and motions are inferred outputs, never additional source evidence.
+6. Decide eligibility before fitting. Preserve rejected cases and reasons. A view-limited or still-only result can be a provisional preview; it cannot silently become a complete moving companion. Do not require a retake when archives are all that is available.
+
+This is a proposed screening protocol, not a demonstrated sufficient recipe or a fixed required frame count. Existing footage does not imply a memorial case; confirm the path separately. Memorial material retains its own eligibility and acceptance rules.
 
 Before any intake, complete this private case record for each animal:
 
@@ -46,7 +50,7 @@ Before any intake, complete this private case record for each animal:
 | Evaluation split | Separate input and held-out files, locked before fitting |
 | Storage lifecycle | Owner-approved private encrypted location/access, retention/deletion date, backup/export/deletion scope |
 
-No actual case or consent is recorded by this template. Do not upload private recordings or commit them to Git. Source animals/media availability is awaiting the owner's answer; no filesystem search for personal pet media has occurred.
+No actual case or consent is recorded by this template. Do not upload private recordings or commit them to Git. The owner confirms existing recordings only; their location, rights, species/individual coverage and quality have not been inspected. No filesystem search for personal pet media has occurred.
 
 ## Bounded experiment after prerequisites
 
