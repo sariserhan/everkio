@@ -56,3 +56,8 @@ Owner explicitly retained **no spending approval** after seeing a proposed USD 2
 Owner instructed execution. Original synthetic references and local TripoSR meshes now exist for both species at resolutions 128 and 256, with pinned source/weights, hashes, GLB/OBJ exports and four-view renders. This establishes a nonbillable local 3D-generation path, superseding the earlier “no generator selected/no generation run” state. Full provenance, commands and defects are in [AI animal generation](ai-animal-generation.md). No stock pack or remote inference service was used.
 
 The outputs remain evaluation drafts: coarse face/fur detail, open topology and missing rig/skinning/animation/PBR/mobile LODs prevent product acceptance. Static precheck is FAIL for product use; M1's complete evaluation and all product gates remain NOT RUN. Higher extraction resolution alone did not resolve quality. The next blocker is usable generated shape/material/rig quality, rather than a mandatory stock-asset purchase. Spending and personalized reconstruction research remain unapproved/unfunded as before.
+
+
+## Real-photo/video direction — October 16
+
+Owner requested a route using real animal photos/videos after observing that the animated drafts remain insufficiently realistic. The [real-media preparation packet](real-media-evaluation.md) compares three pinned candidates and records source-media/holdout requirements, dependency-rights and CUDA hardware constraints. This extends evaluation planning; D13 is not revoked, no stock purchase is selected, no model is commercially cleared, and no real-pet job or broader training is authorized without the existing R0 prerequisites. Spending remains unapproved.
